@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -106,7 +105,7 @@ class Event(models.Model):
     result = models.CharField(_('Resultado'), max_length=2, blank=True, null=True)
 
     def __unicode__(self):
-        pass
+        return unicode(self.id)
 
 
 class Firm(models.Model):
@@ -117,16 +116,19 @@ class Firm(models.Model):
         name = models.CharField(_('Nombre'), max_length=50)
 
         def __unicode__(self):
-            pass
+            return self.name
+
+
+class Schedule(models.Model):
+    class Meta:
+        verbose_name = _('Agenda')
+        verbose_name_plural = _('Agendas')
+
+    preferred_color = models.CharField(_('Color Preferido'), max_length=5, default='blue')
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     firm = models.ForeignKey(Firm)
-
-
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
-post_save.connect(create_user_profile, sender=User)
+    ownSchedule = models.OneToOneField(Schedule, related_name='owner')
+    viewsSchedule = models.ManyToManyField(Schedule, related_name='users_with_view_access')
