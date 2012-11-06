@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+
+        <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">Project name</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="#">Mi día</a></li>
+                            <li><a href="#about">Agenda</a></li>
+                            <li><a href="#contact">Clientes</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Asuntos <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li class="nav-header">Nav header</li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="navbar-form pull-right">
+                            <input class="span2" type="search" placeholder="Busqueda">
+                            <button type="submit" class="btn">Ir</button>
+                        </form>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <!-- Example row of columns -->
+            <div class="row">
+                <div class="span8">
+                    <h2>Mi día</h2>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="15%">Hora</th>
+                                <th width="70%">Evento</th>
+                                <th width="15%">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    8:00 AM
+                                </td>
+                                <td>
+                                    Reunion importantisima
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    10:00 AM
+                                </td>
+                                <td>
+                                    Llamada importantisima
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    3:00 PM
+                                </td>
+                                <td>
+                                    Presentacion importantisima
+                                </td>
+                                <td>
+                                    <a href='javascript:hideToHide()'>
+                                        <!-- <i class="icon-circle-arrow-down hide1"></i> -->
+                                        <i class="icon-list-alt hide1" title='Mostrar detalles'></i>
+                                        <i class="icon-circle-arrow-up hide1" style="display: none;" title='Ocultar detalles'></i>
+                                    </a>
+                                    <a href='' ><i class="icon-trash" title='Eliminar este evento'></i></a>
+                                    <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
+                                    <a href='' ><i class="icon-pencil" title='Editar este evento'></i></a>
+
+                                </td>
+                            </tr>
+                            <tr class="hide1" style="display: none;">
+                                <td></td>
+                                <td>
+                                    <div class="row">
+                                        <div class="span2 offset1">
+
+                                            Cliente: Los chinos
+                                        </div>
+                                        <div class="span2">
+                                            Asunto: Lavado de dinero
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="span2 offset1">
+                                            Hora Inicio: 3:00 PM
+                                        </div>
+                                        <div class="span2">
+                                            Hora Fin: 3:45 PM
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="span4 offset1">
+                                            Descripcion: Se deberan presentar los resultados del ultimo recurso introducido
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    3:00 PM
+                                </td>
+                                <td>
+                                    Un titulo de acteres.WWWWWWWWWWWWWW
+                                </td>
+                                <td>
+                                    <a href='' title='Mostrar detalles'><i class="icon-circle-arrow-down"></i></a>
+                                    <a href='' title='Eliminar este evento'><i class="icon-minus"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><a class="btn" href="#">Añadir evento <i class="icon-plus"></i></a></p>
+                </div>
+                <div class="span4">
+                    <h2>Proximos eventos</h2>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Fecha
+                                </th>
+                                <th>
+                                    Evento
+                                </th>
+                                <th>
+                                    &nbsp;
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Mañana
+                                </td>
+                                <td>
+                                    Reunion menos importante
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Jueves 8 Dic.
+                                </td>
+                                <td>
+                                    Recurso inapelable
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Lunes 12 Dic.
+                                </td>
+                                <td>
+                                    Llamada presidente Obama
+                                </td>
+                                <td>
+                                    <a href='' title='Mostrar detalles'><i class="icon-circle-arrow-down"></i></a>
+                                    <a href='' title='Eliminar este evento'><i class="icon-minus"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Lunes 12 Dic.
+                                </td>
+                                <td>
+                                    Un titulo de
+                                </td>
+                                <td>
+                                    <a href='' title='Mostrar detalles'><i class="icon-circle-arrow-down"></i></a>
+                                    <a href='' title='Eliminar este evento'><i class="icon-minus"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Lunes 12 Dic.
+                                </td>
+                                <td>
+                                    Almuerzo de Negocios
+                                </td>
+                                <td>
+                                    <a href='' title='Mostrar detalles'><i class="icon-circle-arrow-down"></i></a>
+                                    <a href='' title='Eliminar este evento'><i class="icon-minus"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Martes 13 Dic.
+                                </td>
+                                <td>
+                                    Reunion liquidacion sociedad
+                                </td>
+                                <td>
+                                    <a href='' title='Mostrar detalles'><i class="icon-circle-arrow-down"></i></a>
+                                    <a href='' title='Eliminar este evento'><i class="icon-minus"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+               </div>
+            </div>
+
+            <hr>
+
+            <footer>
+                <p>&copy; Company 2012</p>
+            </footer>
+
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="js/main.js"></script>
+
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+
+            function hideToHide() {
+                $(".hide1").toggle();
+            }
+
+        </script>
+    </body>
+</html>
