@@ -21,7 +21,7 @@ class Client(models.Model):
         verbose_name = _('Cliente')
         verbose_name_plural = _('Clientes')
 
-    client_type = models.CharField(_('Tipo de Cliente'), max_length=1)
+    # client_type = models.CharField(_('Tipo de Cliente'), max_length=1)
     phone_1 = models.CharField(_('Telefono 1'), max_length=20, blank=True, null=True)
     phone_2 = models.CharField(_('Telefono 2'), max_length=20, blank=True, null=True)
     phone_3 = models.CharField(_('Telefono 3'), max_length=20, blank=True, null=True)
@@ -30,6 +30,16 @@ class Client(models.Model):
     country = models.CharField(_('Pais'), max_length=20, blank=True, null=True)
     city = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
     state = models.CharField(_('Estado/Provincia'), max_length=20, blank=True, null=True)
+
+    def get_name(self):
+        try:
+            name = self.naturalclient.last_name + ", " + self.naturalclient.name
+        except Client.DoesNotExist:
+            try:
+                name = self.legalclient.corporate_name
+            except Client.DoesNotExist:
+                raise Exception('Client not attached to a subclass')
+        return name
 
     def __unicode__(self):
         return unicode(self.id)
@@ -49,7 +59,7 @@ class NaturalClient(Client):
     email = models.CharField(_('E-mail'), max_length=50, blank=True, null=True)
 
     def __unicode__(self):
-        return unicode(self.last_name + self.name)
+        return unicode(self.last_name + " " + self.name)
 
 
 class LegalClient(Client):
@@ -95,6 +105,7 @@ class Event(models.Model):
         verbose_name = _('Evento')
         verbose_name_plural = _('Eventos')
 
+    owner = models.ForeignKey(User)
     case = models.ForeignKey(Case)
     date = models.DateField(_('Fecha'), blank=True, null=True)
     begin_time = models.TimeField(_('Hora de Inicio'), blank=True, null=True)
@@ -109,14 +120,14 @@ class Event(models.Model):
 
 
 class Firm(models.Model):
-        class Meta:
-            verbose_name = _('Despacho')
-            verbose_name_plural = _('Despachos')
+    class Meta:
+        verbose_name = _('Despacho')
+        verbose_name_plural = _('Despachos')
 
-        name = models.CharField(_('Nombre'), max_length=50)
+    name = models.CharField(_('Nombre'), max_length=50)
 
-        def __unicode__(self):
-            return self.name
+    def __unicode__(self):
+        return self.name
 
 
 class Schedule(models.Model):
@@ -124,11 +135,16 @@ class Schedule(models.Model):
         verbose_name = _('Agenda')
         verbose_name_plural = _('Agendas')
 
+    owner = models.ForeignKey(User)
+    is_main = models.BooleanField(_('Principal'))
     preferred_color = models.CharField(_('Color Preferido'), max_length=5, default='blue')
 
+    def __unicode__(self):
+        return unicode(self.owner.username + " " + unicode(self.id))
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-    firm = models.ForeignKey(Firm)
-    ownSchedule = models.OneToOneField(Schedule, related_name='owner')
-    viewsSchedule = models.ManyToManyField(Schedule, related_name='users_with_view_access')
+
+# class UserProfile(models.Model):
+#     user = models.OneToOneField(User)
+#     firm = models.ForeignKey(Firm)
+#     ownSchedule = models.OneToOneField(Schedule, related_name='owner')
+#     viewsSchedule = models.ManyToManyField(Schedule, related_name='users_with_view_access', blank=True, null=True)

@@ -110,10 +110,9 @@
                                     Presentacion importantisima
                                 </td>
                                 <td>
-                                    <a href='javascript:hideToHide()'>
-                                        <!-- <i class="icon-circle-arrow-down hide1"></i> -->
-                                        <i class="icon-list-alt hide1" title='Mostrar detalles'></i>
-                                        <i class="icon-circle-arrow-up hide1" style="display: none;" title='Ocultar detalles'></i>
+                                    <a href='javascript:hideToHide("1")'>
+                                        <i class="icon-circle-arrow-down hide-fast1" title='Mostrar detalles'></i>
+                                        <i class="icon-circle-arrow-up hide-fast1" style="display: none;" title='Ocultar detalles'></i>
                                     </a>
                                     <a href='' ><i class="icon-trash" title='Eliminar este evento'></i></a>
                                     <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
@@ -149,21 +148,69 @@
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
-                            <tr>
+<!--                             <tr>
                                 <td>
-                                    3:00 PM
+                                    5:00 PM
                                 </td>
                                 <td>
-                                    Un titulo de acteres.WWWWWWWWWWWWWW
+                                    Presentacion importantisima 2
                                 </td>
                                 <td>
-                                    <a href='' title='Mostrar detalles'><i class="icon-circle-arrow-down"></i></a>
-                                    <a href='' title='Eliminar este evento'><i class="icon-minus"></i></a>
+                                    <a href='javascript:trShow(".collapse-tr")'>
+                                        show
+                                    </a>
+                                    <a href='javascript:trHide(".collapse-tr")'>
+                                        hide
+                                    </a>
                                 </td>
                             </tr>
+
+                                <tr class="collapse-tr" style="display: none;">
+                                    <td></td>
+
+                                    <td colspan="2">
+                                        <div id="demo" class="collapse">
+                                        <div class="row">
+                                            <div class="span3">
+
+                                                Cliente: Los chinos
+                                            </div>
+                                            <div class="span2">
+                                                Asunto: Lavado de dinero
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="span2 offset1">
+                                                Hora Inicio: 3:00 PM
+                                            </div>
+                                            <div class="span2">
+                                                Hora Fin: 3:45 PM
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="span4 offset1">
+                                                Descripcion: Se deberan presentar los resultados del ultimo recurso introducido
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </td>
+
+                                </tr> -->
+                                <tr>
+                                    <td>
+                                        3:00 PM
+                                    </td>
+                                    <td>
+                                        Presentacion importantisima
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+
+
                         </tbody>
                     </table>
-                    <p><a class="btn" href="#">Añadir evento <i class="icon-plus"></i></a></p>
+                    <p><a class="btn" href="#">Añadir evento | <i class="icon-plus"></i></a></p>
                 </div>
                 <div class="span4">
                     <h2>Proximos eventos</h2>
@@ -264,10 +311,11 @@
             </footer>
 
         </div> <!-- /container -->
-
+<!--
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-
+-->
+        <script src="js/vendor/jquery-1.8.2.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
 
         <script src="js/main.js"></script>
@@ -278,9 +326,20 @@
             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));
 
-            function hideToHide() {
-                $(".hide1").toggle();
+            function hideToHide(class_to_hide) {
+                $(".hide-fast"+class_to_hide).toggle();
+                $(".hide"+class_to_hide).toggle('slow');
             }
+            function trShow(class_to_hide) {
+                $(class_to_hide).show();
+                $("#demo").collapse('show');
+            }
+            function trHide(class_to_hide) {
+                $("#demo").removeAttr('style')
+                $("#demo").collapse('hide');
+                //setTimeout(function() { $(class_to_hide).hide();}, 300);
+            }
+
 
         </script>
     </body>

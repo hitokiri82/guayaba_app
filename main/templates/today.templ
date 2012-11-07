@@ -1,0 +1,143 @@
+{% extends "base.templ" %}
+{% block page_title %}
+    Bienvenido
+{% endblock page_title %}
+
+{% block container %}
+<div class="row">
+    <!-- ***************** EVENTOS DE HOY ************ -->
+    <div class="span8">
+        <h2>Mi día</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th width="8%">Hora</th>
+                    <th width="80%">Evento</th>
+                    <th width="12%">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for event in todays_events  %}
+                <tr>
+                    <td>
+                        {{event.begin_time|date:"H:i"}}
+                    </td>
+                    <td>
+                        {{event.description}}
+                    </td>
+                    <td>
+                        <a href='javascript:trToggle("{{event.id}}")'>
+                            <i class="icon-circle-arrow-down hide-fast{{event.id}}" title='Mostrar detalles'></i>
+                            <i class="icon-circle-arrow-up hide-fast{{event.id}}" style="display: none;" title='Ocultar detalles'></i>
+                        </a>
+                        <a href="#deleteModal" data-toggle="modal"><i class="icon-trash" title='Eliminar este evento'></i></a>
+                        <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
+                        <a href='' ><i class="icon-pencil" title='Editar este evento'></i></a>
+
+                    </td>
+                </tr>
+                <tr class="hide{{event.id}}" style="display: none;">
+                    <td></td>
+                    <td>
+                        <div class="row">
+                            <div class="span3">
+
+                                Cliente: {{event.case.client.get_name}}
+                            </div>
+                            <div class="span3">
+                                Asunto: {{event.case.description}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                Hora Inicio: {{event.begin_time|date:"H:i"}}
+                            </div>
+                            <div class="span3">
+                                Hora Fin: {{event.end_time|date:"H:i"}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span6">
+                                Comentarios: {{event.comments}}
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p><a class="btn" href="#">Añadir evento | <i class="icon-plus"></i></a></p>
+    </div>
+
+    <!-- ***************** PROXIMOS EVENTOS ************ -->
+
+    <div class="span4">
+        <h2>Proximos eventos</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Fecha
+                    </th>
+                    <th>
+                        Evento
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in incoming_events %}
+                <tr>
+                    <td>
+                        {{event.date|date:"D j"}}
+                    </td>
+                    <td>
+                        {{event.description}}
+                    </td>
+                    <td>
+                        <a href='javascript:trToggle("{{event.id}}")'>
+                            <i class="icon-circle-arrow-down hide-fast{{event.id}}" title='Mostrar detalles'></i>
+                            <i class="icon-circle-arrow-up hide-fast{{event.id}}" style="display: none;" title='Ocultar detalles'></i>
+                        </a>
+                        <a href='' title='Eliminar este evento'>
+                            <i class="icon-minus"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr class="hide{{event.id}}" style="display: none;">
+                    <td>
+                        {{event.begin_time|date:"H:i"}}
+                    </td>
+                    <td>
+                        {{event.case.description}}
+                    </td>
+                    <td>
+                        <a href='' title='Eliminar este evento'>
+                            <i class="icon-tag"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+   </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal hide fade" tabindex="-1">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" >×</button>
+    <h3>Eliminar evento</h3>
+  </div>
+  <div class="modal-body">
+    <p>Esta seguro de que desea eliminar el evento?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Cancelar</button>
+    <button class="btn btn-primary">Eliminar!</button>
+  </div>
+</div>
+{% endblock container %}

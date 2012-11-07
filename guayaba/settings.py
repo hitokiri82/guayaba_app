@@ -17,7 +17,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/pakiko/Projects/django/guayaba_app/guayaba.db',  # Or path to database file if using sqlite3.
+        'NAME': '/home/pakiko/Projects/django/guayaba_app/database.db',  # Or path to database file if using sqlite3.
         #'NAME': '/media/BIG_DATA/Projects/django/guayaba_app/guayaba.db',
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
@@ -158,4 +158,4 @@ LOGGING = {
 }
 
 # The model that stores user profiles (additional user info)
-AUTH_PROFILE_MODULE = 'main.UserProfile'
+#AUTH_PROFILE_MODULE = 'main.UserProfile'

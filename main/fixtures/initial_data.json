@@ -1,0 +1,233 @@
+[
+    {
+        "pk": 1,
+        "model": "main.client",
+        "fields": {
+            "city": "Madrid",
+            "country": "Espa\u00f1a",
+            "postal_zone": "877272",
+            "state": "Madrid",
+            "street": "Kilos",
+            "phone_2": "980982098",
+            "phone_3": "98209820982",
+            "phone_1": "992992992"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.client",
+        "fields": {
+            "city": "Beijing",
+            "country": "China",
+            "postal_zone": "888991",
+            "state": "Juangzhou",
+            "street": "Pozos",
+            "phone_2": "09870928723098",
+            "phone_3": "09873098720987",
+            "phone_1": "98732987230987"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "main.client",
+        "fields": {
+            "city": "Caracas",
+            "country": "Venezuela",
+            "postal_zone": "10920",
+            "state": "Miranda",
+            "street": "Los Sauces",
+            "phone_2": "9928829",
+            "phone_3": "991919991",
+            "phone_1": "8882928"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "main.client",
+        "fields": {
+            "city": "Coru\u00f1a",
+            "country": "Espa\u00f1a",
+            "postal_zone": "0987",
+            "state": "Galicia",
+            "street": "Anaucos",
+            "phone_2": "098709870987",
+            "phone_3": "098708970987",
+            "phone_1": "980870987"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "main.naturalclient",
+        "fields": {
+            "name_2": "Jose",
+            "last_name": "Martinez",
+            "name": "Pedro",
+            "id_number": "C18998818999999",
+            "id_type": "NIE",
+            "last_name_2": "Campos",
+            "email": "ppppp@kkkkk.com"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "main.naturalclient",
+        "fields": {
+            "name_2": "Ortiel",
+            "last_name": "Paquete",
+            "name": "Manuel",
+            "id_number": "V676772982H",
+            "id_type": "CIF",
+            "last_name_2": "Nurman",
+            "email": "jjjjj@jjjjs.com"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "main.legalclient",
+        "fields": {
+            "contact_phone_number": "992882882882",
+            "contact_last_name": "Montes",
+            "id_number": "1kk919191",
+            "corporate_name": "Polacos HDB. Inc",
+            "contact_email": "uuujjsjdj@jjdjjd.com",
+            "id_type": "CIF",
+            "contact_first_name": "Julio"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.legalclient",
+        "fields": {
+            "contact_phone_number": "09988282828",
+            "contact_last_name": "Yu",
+            "id_number": "9999999",
+            "corporate_name": "Los Chinos",
+            "contact_email": "yu@jjdjdjd.com",
+            "id_type": "CIF",
+            "contact_first_name": "Ming"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "main.case",
+        "fields": {
+            "status": "01",
+            "begin_date": "2012-11-06",
+            "description": "Divorcio",
+            "end_date": "2012-11-23",
+            "budget": "12000",
+            "comments": "Comentarios oooosssiiisiisiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiskskkskkskks",
+            "currency": "EUR",
+            "client": 2,
+            "result": "02",
+            "created_date": "2012-11-06",
+            "collected": "10000"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.case",
+        "fields": {
+            "status": "03",
+            "begin_date": "2012-11-15",
+            "description": "Jubilacion Empleado",
+            "end_date": "2012-11-22",
+            "budget": "500000",
+            "comments": "jjjsus lijsoijsoijs sijs oisj osij soij soijsoijijsjksjksljslksjsksj sslksjlskjskjs",
+            "currency": "USD",
+            "client": 4,
+            "result": "",
+            "created_date": "2012-11-06",
+            "collected": "34000"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "main.firm",
+        "fields": {
+            "name": "Abogados Vergatarios"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.firm",
+        "fields": {
+            "name": "Abogados Regulares"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "pakiko",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-11-06T22:08:36.751Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$mJacw2q7Vr8y$HymX5ZmFU0pPhtDqyu6shQ8IaBPwVZX7TXQ4VQGJSks=",
+            "email": "2@2.com",
+            "date_joined": "2012-11-06T22:07:11.176Z"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "auth.user",
+        "fields": {
+            "username": "prueba",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2012-11-06T22:15:39.428Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$Yf5XOiVuMpfC$XgyKX4tPsMAqLf8jH5Q1H+qX1mTyDX3UE7c1P5XjO1U=",
+            "email": "",
+            "date_joined": "2012-11-06T22:15:39.428Z"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "main.schedule",
+        "fields": {
+            "owner": 2,
+            "preferred_color": "blue",
+            "is_main": true
+        }
+    },
+    {
+        "pk": 1,
+        "model": "main.event",
+        "fields": {
+            "case": 1,
+            "status": "02",
+            "description": "Llamada especial",
+            "comments": "cometarios sobre el evento",
+            "date": "2012-11-06",
+            "end_time": "23:45:58",
+            "begin_time": "23:22:57",
+            "owner": 2,
+            "result": ""
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.event",
+        "fields": {
+            "case": 2,
+            "status": "01",
+            "description": "Reunion Importante",
+            "comments": "dkjdlkjdlkjdlkjdklj",
+            "date": "2012-11-07",
+            "end_time": "17:00:00",
+            "begin_time": "12:00:00",
+            "owner": 2,
+            "result": "02"
+        }
+    }
+]

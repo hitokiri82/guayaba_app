@@ -1,0 +1,32 @@
+{% extends "base.templ" %}
+{% block page_title %}
+    Bienvenido
+{% endblock page_title %}
+{% block navbar %}
+   <div class="navbar navbar-inverse navbar-fixed-top">
+       <div class="navbar-inner">
+           <div class="container">
+               <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+               </a>
+               <a class="brand" href="#">Project name</a>
+           </div>
+       </div>
+   </div>
+{% endblock navbar %}
+
+{% block container %}
+    {{error_message}}
+    <form class="form-signin"  method='Post' action='#'>
+            {% csrf_token %}
+            <h2 class="form-signin-heading">Bienvenido</h2>
+            <input type="text" class="input-block-level" name="user" placeholder="Usuario">
+            <input type="password" class="input-block-level" name="password" placeholder="Password">
+            <label class="checkbox">
+              <input type="checkbox" value="remember-me"> Recuerdame
+            </label>
+            <button class="btn btn-large btn-primary" type="submit">Entrar</button>
+    </form>
+{% endblock container %}
