@@ -4,6 +4,7 @@
 {% endblock page_title %}
 
 {% block container %}
+
 <div class="row">
     <!-- ***************** EVENTOS DE HOY ************ -->
     <div class="span8">
@@ -30,10 +31,9 @@
                             <i class="icon-circle-arrow-down hide-fast{{event.id}}" title='Mostrar detalles'></i>
                             <i class="icon-circle-arrow-up hide-fast{{event.id}}" style="display: none;" title='Ocultar detalles'></i>
                         </a>
-                        <a href="#deleteModal" data-toggle="modal"><i class="icon-trash" title='Eliminar este evento'></i></a>
+                        <a href="#" id="pop{{event.id}}" rel="popover" data-html="true" data-placement="top" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;popToggle()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;event_id&quot; value=&quot;{{event.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación"><i class="icon-trash" title='Eliminar este evento'></i></a>
                         <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
                         <a href='' ><i class="icon-pencil" title='Editar este evento'></i></a>
-
                     </td>
                 </tr>
                 <tr class="hide{{event.id}}" style="display: none;">
@@ -67,7 +67,12 @@
             {% endfor %}
             </tbody>
         </table>
-        <p><a class="btn" href="#">Añadir evento | <i class="icon-plus"></i></a></p>
+        <p>
+            <button type="button" class="btn" data-toggle="collapse" data-target="#demo">
+  Añadir evento | <i class="icon-plus"></i>
+            </button>
+            <a class="btn" href="#">Añadir evento | <i class="icon-plus"></i></a>
+        </p>
     </div>
 
     <!-- ***************** PROXIMOS EVENTOS ************ -->
@@ -126,18 +131,77 @@
    </div>
 </div>
 
-<!-- Delete Modal -->
-<div id="deleteModal" class="modal hide fade" tabindex="-1">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" >×</button>
-    <h3>Eliminar evento</h3>
-  </div>
-  <div class="modal-body">
-    <p>Esta seguro de que desea eliminar el evento?</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal">Cancelar</button>
-    <button class="btn btn-primary">Eliminar!</button>
-  </div>
+<div class="collapse" id="demo">
+<hr>
+<div class="row">
+    <div class="span8">
+        <form class="form-horizontal" >
+            <div class="control-group">
+                <label class="control-label" for="description">Descripción</label>
+                <div class="controls">
+                  <input type="text" id="description" name="description" placeholder="Descripción">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="client">Cliente</label>
+                <div class="controls">
+                  <input type="text" id="client" name="client" placeholder="Cliente">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="case">Caso</label>
+                <div class="controls">
+                  <input type="text" id="case" name="case" placeholder="Caso">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="date">Fecha</label>
+                <div class="controls">
+                  <input type="text" id="date" name="date" placeholder="Fecha">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="begin_time">Hora Inicio</label>
+                <div class="controls">
+                  <input type="text" id="begin_time" name="begin_time" placeholder="Hora Inicio">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="end_time">Hora Fin</label>
+                <div class="controls">
+                  <input type="text" id="end_time" name="end_time" placeholder="Hora Fin">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="comments">Comentarios</label>
+                <div class="controls">
+                  <textarea rows="3" id="comments" name="comments" placeholder="Comentarios"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" name="add_event" class="btn btn-primary">Añadir</button>
+              <button type="button" class="btn">Cancelar</button>
+            </div>
+        </form>
+    </div>
 </div>
+</div>
+
+{# {% load crispy_forms_tags %} #}
+
+
+
+{# {% crispy event_form %} #}
+
+
 {% endblock container %}
+
+
+{% block scripts %}
+$(function (){
+    $("a[rel=popover]").popover();
+});
+function popToggle(id) {
+                $("a[rel=popover]").popover('hide');
+            }
+{% endblock scripts %}

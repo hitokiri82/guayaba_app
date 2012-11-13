@@ -6,3 +6,4 @@ app.sublime-workspace
 guayaba.db
 venv/
 .codeintel
+database.db

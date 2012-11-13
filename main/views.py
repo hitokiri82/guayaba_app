@@ -3,13 +3,12 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-
-from main.models import Event
 from django.contrib.auth import authenticate, login
 
-from datetime import datetime, date, timedelta
+from main.models import Event
+from main.forms import EventForm
 
-import re
+from datetime import datetime, timedelta
 
 
 def login_view(request):
@@ -37,14 +36,31 @@ def today(request):
     """
         This view has to get all the events from today onwards for the current user, up to a point (for now its a week), it then must generate two event lists: today, and upcoming and send those lists back to the today template.
     """
+    user = request.user
+    print "Getting events for user" + user.username
+    if request.method == 'POST':
+        print "POST data detected "
+        if 'confirm_remove' in request.POST:
+            print "Remove request detected"
+            event_id = request.POST['event_id']
+            event = Event.objects.get(pk=event_id)
+            event.delete()
+        if 'add_event' in request.POST:
+            print "Add request detected"
+            pass
+
+    event_form = EventForm()
+
     today = datetime.now().date()
     today_plus_7 = today + timedelta(days=7)
-    user = request.user
+
     events = Event.objects.filter(owner=user.pk, date__gte=today, date__lte=today_plus_7).order_by('date', 'begin_time')
+
+    print "Total number of events: " + str(events.count())
 
     todays_events = events.filter(date=today)
     incoming_events = events.exclude(date=today)
-    return render_to_response('today.templ', {'todays_events': todays_events, 'incoming_events': incoming_events}, context_instance=RequestContext(request))
+    return render_to_response('today.templ', {'todays_events': todays_events, 'incoming_events': incoming_events, 'event_form': event_form}, context_instance=RequestContext(request))
 
 # def index(request):
 #     # print request.META['HTTP_ACCEPT_LANGUAGE']

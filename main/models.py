@@ -84,7 +84,7 @@ class Case(models.Model):
         verbose_name = _('Caso')
         verbose_name_plural = _('Casos')
 
-    client = models.ForeignKey(Client)
+    client = models.ForeignKey(Client, verbose_name=_('Cliente'))
     created_date = models.DateField(_('Fecha de Creación'), auto_now_add=True)
     begin_date = models.DateField(_('Fecha Inicio'), blank=True, null=True)
     end_date = models.DateField(_('Fecha Fin'), blank=True, null=True)
@@ -105,8 +105,8 @@ class Event(models.Model):
         verbose_name = _('Evento')
         verbose_name_plural = _('Eventos')
 
-    owner = models.ForeignKey(User)
-    case = models.ForeignKey(Case)
+    owner = models.ForeignKey(User, verbose_name=_('Usuario'))
+    case = models.ForeignKey(Case, verbose_name=_('Caso'))
     date = models.DateField(_('Fecha'), blank=True, null=True)
     begin_time = models.TimeField(_('Hora de Inicio'), blank=True, null=True)
     end_time = models.TimeField(_('Hora Fin'), blank=True, null=True)
@@ -116,7 +116,7 @@ class Event(models.Model):
     result = models.CharField(_('Resultado'), max_length=2, blank=True, null=True)
 
     def __unicode__(self):
-        return unicode(self.id)
+        return unicode(str(self.owner) + u" " + str(self.date))
 
 
 class Firm(models.Model):
@@ -135,7 +135,7 @@ class Schedule(models.Model):
         verbose_name = _('Agenda')
         verbose_name_plural = _('Agendas')
 
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, verbose_name=_('Usuario'))
     is_main = models.BooleanField(_('Principal'))
     preferred_color = models.CharField(_('Color Preferido'), max_length=5, default='blue')
 
