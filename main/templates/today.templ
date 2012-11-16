@@ -128,18 +128,18 @@
    </div>
 </div>
 {% if event_form.errors %}
-  <div class="collapse in newEventCollapse">
+<div class="collapse in newEventCollapse">
 {% else %}
-  <div class="collapse newEventCollapse">
+<div class="collapse newEventCollapse">
 {% endif %}
 
-<hr>
-<div class="row">
-    <div class="span8">
-        {% load crispy_forms_tags %}
-        {% crispy event_form %}
+    <hr>
+    <div class="row">
+        <div class="span8">
+            {% load crispy_forms_tags %}
+            {% crispy event_form %}
+        </div>
     </div>
-</div>
 </div>
 
 

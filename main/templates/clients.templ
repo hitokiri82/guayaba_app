@@ -1,0 +1,116 @@
+{% extends "base.templ" %}
+{% block page_title %}
+    Clientes
+{% endblock page_title %}
+{% block page_style %}
+    .accordion-group {
+    border: none;
+    }
+{% endblock page_style %}
+
+{% block container %}
+<h2>Clientes</h2>
+<div class="row">
+    <div class="span8">
+        <form class="form-search">
+            <input class="span4" type="search" placeholder="Busqueda">
+            <button type="submit" class="btn">Ir</button>
+        </form>
+        <button type="button" id="addNatUserButton" class="btn" data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion2">
+            Añadir Persona Natural | <i class="icon-user"></i>
+        </button>
+        <button type="button" id="addNatUserButton" class="btn" data-toggle="collapse" data-target="#collapseTwo" data-parent="#accordion2">
+            Añadir Persona Juridica
+        </button>
+    </div>
+</div>
+<div class="row">
+
+    <div class="span6">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th width="8%">&nbsp;</th>
+                    <th width="80%">Cliente</th>
+                    <th width="12%">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for client in clients  %}
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+                        {{client.get_name}}
+                    </td>
+                    <td>
+                        <a href='javascript:trToggle("{{event.id}}")'>
+                            <i class="icon-circle-arrow-down hide-fast{{event.id}}" title='Mostrar detalles'></i>
+                            <i class="icon-circle-arrow-up hide-fast{{event.id}}" style="display: none;" title='Ocultar detalles'></i>
+                        </a>
+                        <a href="#" id="pop{{event.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;popHide()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;event_id&quot; value=&quot;{{event.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación"><i class="icon-trash" title='Eliminar este evento'></i></a>
+                        <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
+                        <a href='' ><i class="icon-pencil" title='Editar este evento'></i></a>
+                    </td>
+                </tr>
+                <tr class="hide{{event.id}}" style="display: none;">
+                    <td></td>
+                    <td>
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="span6">
+
+
+
+        <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+                {% if nat_client_form.errors %}
+                <div id="collapseOne" class="collapse in">
+                {% else %}
+                <div id="collapseOne" class="collapse">
+                {% endif %}
+
+                    <hr>
+                    <div class="row">
+                        <div class="span8">
+                        {% load crispy_forms_tags %}
+                        {% crispy nat_client_form %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="accordion-group">
+                {% if legal_client_form.errors %}
+                <div id="collapseTwo" class="collapse in">
+                {% else %}
+                <div id="collapseTwo" class="collapse">
+                {% endif %}
+
+                    <hr>
+                    <div class="row">
+                        <div class="span8">
+                            {% load crispy_forms_tags %}
+                            {% crispy legal_client_form %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ {% endblock container %}
+
+
+{% block scripts %}
+
+{% endblock scripts %}

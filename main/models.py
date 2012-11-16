@@ -4,6 +4,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
+import locale
+
 
 NAT_ID_TYPES = (
     (u'PSP', _(u'Pasaporte')),
@@ -36,16 +38,43 @@ class Client(models.Model):
     country = models.CharField(_('Pais'), max_length=20, blank=True, null=True)
     city = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
     state = models.CharField(_('Estado/Provincia'), max_length=20, blank=True, null=True)
+    created_date = models.DateField(_('Fecha Creación'), auto_now_add=True)
 
-    def get_name(self):
+    def is_natural(self):
         try:
-            name = self.naturalclient.last_name + ", " + self.naturalclient.name
+            self.naturalclient
+            return True
+        except:
+            return False
+
+    def is_legal(self):
+        try:
+            self.legalclient
+            return True
+        except:
+            return False
+
+    def get_client_type(self):
+        try:
+            self.naturalclient
+            return 'N'
         except Client.DoesNotExist:
             try:
-                name = self.legalclient.corporate_name
+                self.legalclient
+                return 'L'
             except Client.DoesNotExist:
                 raise Exception('Client not attached to a subclass')
-        return name
+
+    def get_name(self):
+        if self.get_client_type() == 'N':
+            # name = self.naturalclient.last_name + ", " + self.naturalclient.name
+            return unicode(self.naturalclient)
+        else:
+            return unicode(self.legalclient)
+
+    def __cmp__(self, other):
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+        return locale.strcoll(self.get_name(), other.get_name())
 
     def __unicode__(self):
         return unicode(self.get_name())
