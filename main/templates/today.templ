@@ -39,25 +39,20 @@
                 <tr class="hide{{event.id}}" style="display: none;">
                     <td></td>
                     <td>
+                        {% if event.client %}
                         <div class="row">
                             <div class="span3">
-                                {% if event.case.client %}
-                                    Cliente: {{event.case.client.get_name}}
+                                {% if event.client %}
+                                Cliente: {{event.client.get_name}}
                                 {% endif %}
-
                             </div>
                             <div class="span3">
+                                {% if event.case %}
                                 Asunto: {{event.case.description}}
+                                {% endif %}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="span3">
-                                Hora Inicio: {{event.begin_time|date:"H:i"}}
-                            </div>
-                            <div class="span3">
-                                Hora Fin: {{event.end_time|date:"H:i"}}
-                            </div>
-                        </div>
+                        {% endif %}
                         <div class="row">
                             <div class="span6">
                                 Comentarios: {{event.comments}}
