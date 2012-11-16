@@ -3,7 +3,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from main.models import Event
 from main.forms import EventForm
@@ -22,7 +22,7 @@ def login_view(request):
             if user.is_active:
                 login(request, user)
                 # Redirect to a success page.
-                return HttpResponseRedirect('/schedule/today')
+                return HttpResponseRedirect('/schedule/today/')
             else:
                 # Return a 'disabled account' error message
                 error_message = "Su cuenta ha sido desactivada"
@@ -32,12 +32,21 @@ def login_view(request):
     return render_to_response('login.templ', {'error_message': error_message, }, context_instance=RequestContext(request))
 
 
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/login/')
+
+
 def today(request):
     """
         This view has to get all the events from today onwards for the current user, up to a point (for now its a week), it then must generate two event lists: today, and upcoming and send those lists back to the today template.
     """
     user = request.user
-    print "Getting events for user" + user.username
+    print "User is authenticated: " + str(user.is_authenticated())
+    print "Getting events for user " + user.username
+
+    event_form = EventForm()
+
     if request.method == 'POST':
         print "POST data detected "
         if 'confirm_remove' in request.POST:
@@ -47,9 +56,15 @@ def today(request):
             event.delete()
         if 'add_event' in request.POST:
             print "Add request detected"
-            pass
-
-    event_form = EventForm()
+            event_form = EventForm(request.POST)
+            if event_form.is_valid():
+                print "Its valid"
+                new_event = event_form.save(commit=False)
+                new_event.owner = request.user
+                new_event.save()
+                print "Saved"
+            else:
+                print "Its not valid"
 
     today = datetime.now().date()
     today_plus_7 = today + timedelta(days=7)

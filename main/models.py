@@ -8,11 +8,17 @@ from django.utils.translation import ugettext_lazy as _
 NAT_ID_TYPES = (
     (u'PSP', _(u'Pasaporte')),
     (u'NIE', _(u'NIE')),
-    (u'CIF', _(u'CIF')),
+    (u'DNI', _(u'DNI')),
+    (u'OTR', _(u'Otros')),
 )
 
 CORP_ID_TYPES = (
     (u'CIF', _(u'CIF')),
+)
+
+STATUSES = (
+    (u'O', _(u'Abierto')),
+    (u'D', _(u'Realizado')),
 )
 
 
@@ -42,7 +48,7 @@ class Client(models.Model):
         return name
 
     def __unicode__(self):
-        return unicode(self.id)
+        return unicode(self.get_name())
 
 
 class NaturalClient(Client):
@@ -97,7 +103,7 @@ class Case(models.Model):
     currency = models.CharField(_('Moneda'), max_length=3, blank=True, null=True)
 
     def __unicode__(self):
-        return unicode(self.id)
+        return unicode(unicode(self.client) + " - " + unicode(self.description))
 
 
 class Event(models.Model):
@@ -106,14 +112,27 @@ class Event(models.Model):
         verbose_name_plural = _('Eventos')
 
     owner = models.ForeignKey(User, verbose_name=_('Usuario'))
-    case = models.ForeignKey(Case, verbose_name=_('Caso'))
-    date = models.DateField(_('Fecha'), blank=True, null=True)
-    begin_time = models.TimeField(_('Hora de Inicio'), blank=True, null=True)
-    end_time = models.TimeField(_('Hora Fin'), blank=True, null=True)
-    description = models.CharField(_('Descripcion'), max_length=50)
+    client = models.ForeignKey(Client, verbose_name=_('Cliente'), blank=True, null=True)
+    case = models.ForeignKey(Case, verbose_name=_('Caso'), blank=True, null=True)
+    date = models.DateField(_('Fecha'))
+    begin_time = models.TimeField(_('Hora de Inicio'))
+    duration = models.IntegerField(_(u'Duración'), blank=True, null=True)
+    description = models.CharField(_(u'Descripción'), max_length=50)
     comments = models.TextField(_('Comentarios'), blank=True, null=True)
-    status = models.CharField(_('Estado/Status'), max_length=2, blank=True, null=True)
-    result = models.CharField(_('Resultado'), max_length=2, blank=True, null=True)
+    status = models.CharField(max_length=1, choices=STATUSES, blank=True)
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        """
+        If an Event has a case assigned, it must also have a client assigned and the client-case
+        relation must be consistent.
+        """
+        if self.case is not None:
+            if self.client is None:
+                self.client = self.case.client
+            else:
+                if self.case.client != self.client:
+                    raise ValidationError(_('El cliente del evento no coincide con el cliente del caso asignado'))
 
     def __unicode__(self):
         return unicode(str(self.owner) + u" " + str(self.date))

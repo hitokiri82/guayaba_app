@@ -28,6 +28,14 @@
  padding: 7px 9px;
 }
 
+.asteriskField {
+    display: none;
+}
+
+.requiredField {
+    font-weight: bold;
+}
+
 
 
 

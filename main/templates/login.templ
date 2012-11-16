@@ -18,7 +18,9 @@
 {% endblock navbar %}
 
 {% block container %}
-    {{error_message}}
+    {% if error_message %}
+        {{error_message}}
+    {% endif %}
     <form class="form-signin"  method='Post' action='#'>
             {% csrf_token %}
             <h2 class="form-signin-heading">Bienvenido</h2>

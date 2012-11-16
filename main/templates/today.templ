@@ -31,7 +31,7 @@
                             <i class="icon-circle-arrow-down hide-fast{{event.id}}" title='Mostrar detalles'></i>
                             <i class="icon-circle-arrow-up hide-fast{{event.id}}" style="display: none;" title='Ocultar detalles'></i>
                         </a>
-                        <a href="#" id="pop{{event.id}}" rel="popover" data-html="true" data-placement="top" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;popToggle()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;event_id&quot; value=&quot;{{event.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación"><i class="icon-trash" title='Eliminar este evento'></i></a>
+                        <a href="#" id="pop{{event.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;popHide()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;event_id&quot; value=&quot;{{event.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación"><i class="icon-trash" title='Eliminar este evento'></i></a>
                         <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
                         <a href='' ><i class="icon-pencil" title='Editar este evento'></i></a>
                     </td>
@@ -41,8 +41,10 @@
                     <td>
                         <div class="row">
                             <div class="span3">
+                                {% if event.case.client %}
+                                    Cliente: {{event.case.client.get_name}}
+                                {% endif %}
 
-                                Cliente: {{event.case.client.get_name}}
                             </div>
                             <div class="span3">
                                 Asunto: {{event.case.description}}
@@ -68,10 +70,10 @@
             </tbody>
         </table>
         <p>
-            <button type="button" class="btn" data-toggle="collapse" data-target="#demo">
-  Añadir evento | <i class="icon-plus"></i>
+            <button type="button" id="addEventButton" onclick="$('.plusminus').toggle()" class="btn" data-toggle="collapse" data-target=".newEventCollapse">
+                Añadir evento | <i class="icon-plus plusminus" style="display: inline-block;"></i>
+                <i class="icon-minus plusminus" style="display: none;"></i>
             </button>
-            <a class="btn" href="#">Añadir evento | <i class="icon-plus"></i></a>
         </p>
     </div>
 
@@ -130,68 +132,22 @@
         </table>
    </div>
 </div>
+{% if event_form.errors %}
+  <div class="collapse in newEventCollapse">
+{% else %}
+  <div class="collapse newEventCollapse">
+{% endif %}
 
-<div class="collapse" id="demo">
 <hr>
 <div class="row">
     <div class="span8">
-        <form class="form-horizontal" >
-            <div class="control-group">
-                <label class="control-label" for="description">Descripción</label>
-                <div class="controls">
-                  <input type="text" id="description" name="description" placeholder="Descripción">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="client">Cliente</label>
-                <div class="controls">
-                  <input type="text" id="client" name="client" placeholder="Cliente">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="case">Caso</label>
-                <div class="controls">
-                  <input type="text" id="case" name="case" placeholder="Caso">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="date">Fecha</label>
-                <div class="controls">
-                  <input type="text" id="date" name="date" placeholder="Fecha">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="begin_time">Hora Inicio</label>
-                <div class="controls">
-                  <input type="text" id="begin_time" name="begin_time" placeholder="Hora Inicio">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="end_time">Hora Fin</label>
-                <div class="controls">
-                  <input type="text" id="end_time" name="end_time" placeholder="Hora Fin">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="comments">Comentarios</label>
-                <div class="controls">
-                  <textarea rows="3" id="comments" name="comments" placeholder="Comentarios"></textarea>
-                </div>
-            </div>
-            <div class="form-actions">
-              <button type="submit" name="add_event" class="btn btn-primary">Añadir</button>
-              <button type="button" class="btn">Cancelar</button>
-            </div>
-        </form>
+        {% load crispy_forms_tags %}
+        {% crispy event_form %}
     </div>
 </div>
 </div>
 
-{# {% load crispy_forms_tags %} #}
 
-
-
-{# {% crispy event_form %} #}
 
 
 {% endblock container %}
@@ -201,7 +157,11 @@
 $(function (){
     $("a[rel=popover]").popover();
 });
-function popToggle(id) {
+$("#button-id-cancel").click(function () {
+      //$("#newEventForm")[0].reset();
+      $("#addEventButton").click();
+    });
+function popHide(id) {
                 $("a[rel=popover]").popover('hide');
             }
 {% endblock scripts %}

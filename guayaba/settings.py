@@ -99,6 +99,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'main.middleware.LoginRequiredMiddleware'
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -160,3 +161,10 @@ LOGGING = {
 
 # The model that stores user profiles (additional user info)
 #AUTH_PROFILE_MODULE = 'main.UserProfile'
+LOGIN_URL = '/login/'
+
+LOGIN_EXEMPT_URLS = (
+# r'^about\.html$',
+# r'^legal/', # allow any URL under /legal/*
+r'^admin/',
+)

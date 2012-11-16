@@ -199,35 +199,5 @@
             "preferred_color": "blue",
             "is_main": true
         }
-    },
-    {
-        "pk": 1,
-        "model": "main.event",
-        "fields": {
-            "case": 1,
-            "status": "02",
-            "description": "Llamada especial",
-            "comments": "cometarios sobre el evento",
-            "date": "2012-11-06",
-            "end_time": "23:45:58",
-            "begin_time": "23:22:57",
-            "owner": 2,
-            "result": ""
-        }
-    },
-    {
-        "pk": 2,
-        "model": "main.event",
-        "fields": {
-            "case": 2,
-            "status": "01",
-            "description": "Reunion Importante",
-            "comments": "dkjdlkjdlkjdlkjdklj",
-            "date": "2012-11-07",
-            "end_time": "17:00:00",
-            "begin_time": "12:00:00",
-            "owner": 2,
-            "result": "02"
-        }
     }
 ]

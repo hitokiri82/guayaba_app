@@ -8,7 +8,9 @@ urlpatterns = patterns('',
     # Examples:
     #url(r'^$', 'main.views.home', name='home'),
     url(r'^login/$', 'main.views.login_view'),
+    url(r'^logout/$', 'main.views.logout'),
     url(r'^schedule/today/$', 'main.views.today'),
+
     # url(r'^schedule/add/$', 'main.views.add_event'),
     # url(r'^schedule/event/(?P<event_id>\d+)/$', 'main.views.change_event'),
     # url(r'^$', 'guayaba.views.home', name='home'),
