@@ -6,3 +6,14 @@ function trToggle(index_to_toggle) {
 function hideAllPopovers() {
                 $("a[rel=popover]").popover('hide');
             }
+
+// $(document).ready(function (){
+//     $("a[rel=popover]").popover();
+// });
+$(document).ready(function (){
+    $("a[rel=popover]")
+      .popover()
+      .click(function(e) {
+        e.preventDefault()
+      })
+});
