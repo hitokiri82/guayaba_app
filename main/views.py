@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from main.models import Event, Client
 from main.forms import EventForm, NaturalClientForm, LegalClientForm
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def login_view(request):
@@ -83,7 +83,8 @@ def today(request):
     return render_to_response('today.templ',
                               {'todays_events': todays_events,
                                'incoming_events': incoming_events,
-                               'event_form': event_form},
+                               'event_form': event_form,
+                               'username': user.username},
                               context_instance=RequestContext(request))
 
 

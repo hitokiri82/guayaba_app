@@ -31,7 +31,7 @@
                             <i class="icon-circle-arrow-down hide-fast{{event.id}}" title='Mostrar detalles'></i>
                             <i class="icon-circle-arrow-up hide-fast{{event.id}}" style="display: none;" title='Ocultar detalles'></i>
                         </a>
-                        <a href="#" id="pop{{event.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;popHide()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;event_id&quot; value=&quot;{{event.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación"><i class="icon-trash" title='Eliminar este evento'></i></a>
+                        <a href="#" id="pop{{event.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;hideAllPopovers(quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;event_id&quot; value=&quot;{{event.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación"><i class="icon-trash" title='Eliminar este evento'></i></a>
                         <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
                         <a href='' ><i class="icon-pencil" title='Editar este evento'></i></a>
                     </td>
@@ -149,14 +149,11 @@
 
 
 {% block scripts %}
-$(function (){
-    $("a[rel=popover]").popover();
-});
 $("#button-id-cancel").click(function () {
       //$("#newEventForm")[0].reset();
       $("#addEventButton").click();
     });
-function popHide(id) {
+function hideAllPopovers() {
                 $("a[rel=popover]").popover('hide');
             }
 {% endblock scripts %}
