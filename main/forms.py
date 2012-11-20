@@ -66,7 +66,7 @@ class EventForm(ModelForm):
 class NaturalClientForm(ModelForm):
     class Meta:
         model = NaturalClient
-        exclude = ('date_created', )
+        exclude = ('date_created', 'created_by', )
 
     def __init__(self, *args, **kwargs):
         super(NaturalClientForm, self).__init__(*args, **kwargs)
@@ -92,7 +92,7 @@ class NaturalClientForm(ModelForm):
             'postal_zone',
             'country',
             FormActions(
-                Submit('add_client', u'Añadir'),
+                Submit('add_nat_client', u'Añadir'),
                 Button('cancel', u'Cancelar'),
             )
         )
@@ -101,7 +101,7 @@ class NaturalClientForm(ModelForm):
 class LegalClientForm(ModelForm):
     class Meta:
         model = LegalClient
-        exclude = ('date_created', )
+        exclude = ('date_created', 'created_by', )
 
     def __init__(self, *args, **kwargs):
         super(LegalClientForm, self).__init__(*args, **kwargs)
@@ -127,7 +127,7 @@ class LegalClientForm(ModelForm):
             'postal_zone',
             'country',
             FormActions(
-                Submit('add_client', u'Añadir'),
+                Submit('add_legal_client', u'Añadir'),
                 Button('cancel', u'Cancelar'),
             )
         )

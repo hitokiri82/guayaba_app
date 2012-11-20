@@ -39,6 +39,7 @@ class Client(models.Model):
     city = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
     state = models.CharField(_('Estado/Provincia'), max_length=20, blank=True, null=True)
     created_date = models.DateField(_('Fecha Creación'), auto_now_add=True)
+    created_by = models.ForeignKey(User, verbose_name=_('Creado por'))
 
     def is_natural(self):
         try:
