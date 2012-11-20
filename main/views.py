@@ -83,8 +83,7 @@ def today(request):
     return render_to_response('today.templ',
                               {'todays_events': todays_events,
                                'incoming_events': incoming_events,
-                               'event_form': event_form,
-                               'username': user.username},
+                               'event_form': event_form},
                               context_instance=RequestContext(request))
 
 
