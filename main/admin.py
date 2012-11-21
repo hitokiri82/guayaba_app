@@ -1,4 +1,4 @@
-from main.models import NaturalClient, LegalClient, Case, Firm, Event, Schedule
+from main.models import NaturalClient, LegalClient, Case, Firm, Event, Schedule, Referrer
 from django.contrib import admin
 # from django.contrib.auth.admin import UserAdmin
 # from django.contrib.auth.models import User
@@ -12,6 +12,7 @@ admin.site.register(NaturalClient)
 admin.site.register(Firm)
 admin.site.register(Event)
 admin.site.register(Schedule)
+admin.site.register(Referrer)
 
 
 # Define an inline admin descriptor for UserProfile model

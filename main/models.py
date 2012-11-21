@@ -24,6 +24,33 @@ STATUSES = (
 )
 
 
+class Referrer(models.Model):
+    """The entity that referred a client"""
+    class Meta:
+        verbose_name = _('Referente')
+        verbose_name_plural = _('Referentes')
+
+    referrer_as_client = models.ForeignKey('Client', blank=True, null=True)
+    name = models.CharField(_('Nombre'), max_length=50, blank=True, null=True)
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        """
+        If a Referrer is also a Client, then name must be empty
+        """
+        if self.referrer_as_client is not None:
+            if self.name:
+                raise ValidationError(_('Si se establece un cliente como referente, el campo Nombre desde permanecer vacio'))
+        elif not self.name:
+            raise ValidationError(_('Si no se relaciona al referente con un cliente actual, debe indicar un Nombre para el mismo'))
+
+    def __unicode__(self):
+        if self.referrer_as_client is not None:
+            return unicode(self.referrer_as_client)
+        else:
+            return self.name
+
+
 class Client(models.Model):
     class Meta:
         verbose_name = _('Cliente')
@@ -40,6 +67,7 @@ class Client(models.Model):
     state = models.CharField(_('Estado/Provincia'), max_length=20, blank=True, null=True)
     created_date = models.DateField(_('Fecha Creación'), auto_now_add=True)
     created_by = models.ForeignKey(User, verbose_name=_('Creado por'))
+    referred_by = models.ForeignKey(Referrer, verbose_name=_('Referido por'), blank=True, null=True)
 
     def is_natural(self):
         try:

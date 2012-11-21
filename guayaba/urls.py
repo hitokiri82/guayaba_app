@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'main.views.logout'),
     url(r'^today/$', 'main.views.today'),
     url(r'^clients/$', 'main.views.clients'),
-
+    url(r'^clients/(?P<client_id>\d*)/$', 'main.views.client'),
     # url(r'^schedule/add/$', 'main.views.add_event'),
     # url(r'^schedule/event/(?P<event_id>\d+)/$', 'main.views.change_event'),
     # url(r'^$', 'guayaba.views.home', name='home'),
