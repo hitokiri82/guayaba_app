@@ -161,6 +161,9 @@ LOGGING = {
 
 # The model that stores user profiles (additional user info)
 #AUTH_PROFILE_MODULE = 'main.UserProfile'
+
+# The followin two settings are used by the middleware that requires
+# users to be logged in
 LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
@@ -168,3 +171,5 @@ LOGIN_EXEMPT_URLS = (
 # r'^legal/', # allow any URL under /legal/*
 r'^admin/',
 )
+
+CRISPY_FAIL_SILENTLY = not DEBUG
