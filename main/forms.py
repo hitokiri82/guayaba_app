@@ -91,6 +91,7 @@ class NaturalClientForm(ModelForm):
             'state',
             'postal_zone',
             'country',
+            'referred_by',
             FormActions(
                 Submit('add_nat_client', u'Añadir'),
                 Button('cancel', u'Cancelar'),
@@ -126,6 +127,7 @@ class LegalClientForm(ModelForm):
             'state',
             'postal_zone',
             'country',
+            'referred_by',
             FormActions(
                 Submit('add_legal_client', u'Añadir'),
                 Button('cancel', u'Cancelar'),
