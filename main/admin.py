@@ -1,20 +1,13 @@
-from main.models import NaturalClient, LegalClient, Case, Firm, Event, Schedule, Referrer
+from main.models import Case, Firm, Event, Schedule
 from django.contrib import admin
 # from django.contrib.auth.admin import UserAdmin
 # from django.contrib.auth.models import User
 
 # from main.models import UserProfile
-
-
 admin.site.register(Case)
-admin.site.register(LegalClient)
-admin.site.register(NaturalClient)
 admin.site.register(Firm)
 admin.site.register(Event)
 admin.site.register(Schedule)
-admin.site.register(Referrer)
-
-
 # Define an inline admin descriptor for UserProfile model
 # which acts a bit like a singleton
 # class UserProfileInline(admin.StackedInline):
