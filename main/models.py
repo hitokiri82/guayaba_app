@@ -51,6 +51,23 @@ class Referrer(models.Model):
             return self.name
 
 
+class Address(models.Model):
+    class Meta:
+        verbose_name = _('Dirección')
+        verbose_name_plural = _('Direcciones')
+
+    street_1 = models.CharField(_('Calle/Portal/Piso'), max_length=20, blank=True, null=True)
+    street_2 = models.CharField(_('Calle/Portal/Piso (Cont)'), max_length=20, blank=True, null=True)
+    municipality = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
+    administrative_area = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
+    subadministrative_area = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
+    postal_code = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
+    country = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
+
+    def __unicode__(self):
+        pass
+
+
 class Client(models.Model):
     class Meta:
         verbose_name = _('Cliente')

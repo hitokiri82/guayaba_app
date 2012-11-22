@@ -38,32 +38,31 @@
             </thead>
             <tbody>
             {% for client in clients  %}
+
                 <tr>
                     <td>
 
                     </td>
                     <td>
+                        <a href="/clients/{{client.id}}">
                         {{client.get_name}}
-                    </td>
-                    <td>
-                        <a href='javascript:trToggle("{{event.id}}")'>
-                            <i class="icon-circle-arrow-down hide-fast{{event.id}}" title='Mostrar detalles'></i>
-                            <i class="icon-circle-arrow-up hide-fast{{event.id}}" style="display: none;" title='Ocultar detalles'></i>
                         </a>
-                        <a href="#" id="pop{{event.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;popHide()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;event_id&quot; value=&quot;{{event.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación"><i class="icon-trash" title='Eliminar este evento'></i></a>
-                        <a href='' ><i class="icon-ok" title='Completar este evento'></i></a>
-                        <a href='' ><i class="icon-pencil" title='Editar este evento'></i></a>
                     </td>
-                </tr>
-                <tr class="hide{{event.id}}" style="display: none;">
-                    <td></td>
                     <td>
+                        <a href="#" id="pop{{client.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;hideAllPopovers()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;client_id&quot; value=&quot;{{client.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación">
+                            <i class="icon-trash" title='Eliminar este cliente'></i>
+                        </a>
+                        <a href='' ><i class="icon-pencil" title='Editar este cliente'></i></a>
                     </td>
-                    <td></td>
                 </tr>
+
             {% endfor %}
             </tbody>
         </table>
+
+
+
+
     </div>
     <div class="span6">
 
@@ -109,8 +108,3 @@
 
 
  {% endblock container %}
-
-
-{% block scripts %}
-
-{% endblock scripts %}

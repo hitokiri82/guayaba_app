@@ -50,8 +50,6 @@ def today(request):
     print "User is authenticated: " + str(user.is_authenticated())
     print "Getting events for user " + user.username
 
-    event_form = EventForm()
-
     if request.method == 'POST':
         print "POST data detected "
         if 'confirm_remove' in request.POST:
@@ -67,9 +65,15 @@ def today(request):
                 new_event = event_form.save(commit=False)
                 new_event.owner = request.user
                 new_event.save()
+                del event_form
                 print "Saved"
             else:
                 print "Its not valid"
+
+    try:
+        event_form
+    except:
+        event_form = EventForm()
 
     today = datetime.now().date()
     today_plus_7 = today + timedelta(days=7)
@@ -94,29 +98,48 @@ def clients(request):
         two event lists: today, and upcoming and send those lists back to the
         today template.
     """
-    user = request.user
 
-    nat_client_form = NaturalClientForm()
-    legal_client_form = LegalClientForm()
+    if request.method == 'POST':
+        print "POST data detected "
+        if 'confirm_remove' in request.POST:
+            print "Remove request detected"
+            client_id = request.POST['client_id']
+            client = Client.objects.get(pk=client_id)
+            client.delete()
+        if 'add_nat_client' in request.POST:
+            print "Add request detected"
+            nat_client_form = NaturalClientForm(request.POST)
+            if nat_client_form.is_valid():
+                print "Its valid"
+                new_nat_client = nat_client_form.save(commit=False)
+                new_nat_client.created_by = request.user
+                new_nat_client.save()
+                del nat_client_form
+                print "Saved"
+            else:
+                print "Its not valid"
+        if 'add_legal_client' in request.POST:
+            print "Add request detected"
+            legal_client_form = LegalClientForm(request.POST)
+            if legal_client_form.is_valid():
+                print "Its valid"
+                new_legal_client = legal_client_form.save(commit=False)
+                new_legal_client.created_by = request.user
+                new_legal_client.save()
+                del legal_client_form
+                print "Saved"
+            else:
+                print "Its not valid"
 
-    # if request.method == 'POST':
-    #     print "POST data detected "
-    #     if 'confirm_remove' in request.POST:
-    #         print "Remove request detected"
-    #         event_id = request.POST['event_id']
-    #         event = Event.objects.get(pk=event_id)
-    #         event.delete()
-    #     if 'add_event' in request.POST:
-    #         print "Add request detected"
-    #         event_form = EventForm(request.POST)
-    #         if event_form.is_valid():
-    #             print "Its valid"
-    #             new_event = event_form.save(commit=False)
-    #             new_event.owner = request.user
-    #             new_event.save()
-    #             print "Saved"
-    #         else:
-    #             print "Its not valid"
+    try:
+        nat_client_form
+    except:
+        nat_client_form = NaturalClientForm()
+
+    try:
+        legal_client_form
+    except:
+        legal_client_form = LegalClientForm()
 
     clients = list(Client.objects.all())
     clients.sort()
@@ -125,4 +148,17 @@ def clients(request):
                               {'clients': clients,
                                'nat_client_form': nat_client_form,
                                'legal_client_form': legal_client_form},
+                               context_instance=RequestContext(request))
+
+
+def client(request, client_id):
+    """
+        This view has to get the data related to the client as well as all the
+        cases that are related with this client.
+        I must also handle edition of the client.
+    """
+
+    client = Client.objects.get(pk=client_id)
+    return render_to_response('client.templ',
+                              {'client': client},
                                context_instance=RequestContext(request))
