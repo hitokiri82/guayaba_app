@@ -16,12 +16,8 @@
             <input class="span4" type="search" placeholder="Busqueda">
             <button type="submit" class="btn">Ir</button>
         </form>
-        <button type="button" id="addNatUserButton" class="btn" data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion2">
-            Añadir Persona Natural | <i class="icon-user"></i>
-        </button>
-        <button type="button" id="addNatUserButton" class="btn" data-toggle="collapse" data-target="#collapseTwo" data-parent="#accordion2">
-            Añadir Persona Juridica
-        </button>
+        <a class="btn" href="{% url clients.views.create_client client_type="natural" %}" >Añadir Persona Natural | <i class="icon-user"></i></a>
+        <a class="btn" href="{% url clients.views.create_client client_type="legal" %}" >Añadir Persona Juridica </a>
     </div>
 </div>
 {% if clients %}
@@ -61,65 +57,4 @@
     </div>
 </div>
 {% endif %}
-<div class="row">
-    {% load crispy_forms_tags %}
-    <div class="span6">
-        <div class="accordion" id="accordion2">
-            <div class="accordion-group">
-                <div id="collapseOne" class="collapse
-                    {% if nat_client_form.errors %}
-                        in
-                    {% endif %}">
-                    <div class="row">
-                        <div class="span8">
-
-                            <form action="#" id="natClientForm" class="form-horizontal" method="post">
-                            <legend>Datos Basicos</legend>
-                            {% crispy nat_client_form %}
-                            <legend class="toggleNextSibling">Telefono</legend>
-                            <div style="display: none; ">{% crispy phone_form %}</div>
-                            <legend class="toggleNextSibling">Dirección</legend>
-                            <div style="display: none; ">{% crispy address_form %}</div>
-                            <div class="form-actions">
-                                <input type="submit" name="add_nat_client" value="Añadir" class="btn btn-primary" id="submit-id-add_nat_client">‌
-                                <input type="button" name="cancel" value="Cancelar" class="btn" id="button-id-cancel">‌
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-group">
-                <div id="collapseTwo" class="collapse
-                    {% if legal_client_form.errors %}
-                        in
-                    {% endif %}
-                    ">
-                    <div class="row">
-                        <div class="span8">
-                            <form action="#" id="legalClientForm" class="form-horizontal" method="post">
-                            <legend>Datos Basicos</legend>
-                            {% crispy legal_client_form %}
-                            <legend class="toggleNextSibling">Telefono</legend>
-                            <div style="display: none; ">
-                            {% crispy phone_form %}
-                            </div>
-                            <legend class="toggleNextSibling">Dirección</legend>
-                            <div style="display: none; ">
-                            {% crispy address_form %}
-                            </div>
-                            <div class="form-actions">
-                                <input type="submit" name="add_legal_client" value="Añadir" class="btn btn-primary" id="submit-id-add_nat_client">‌
-                                <input type="button" name="cancel" value="Cancelar" class="ibtn" id="button-id-cancel">‌
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
- {% endblock container %}
+{% endblock container %}

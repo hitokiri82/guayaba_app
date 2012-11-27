@@ -21,10 +21,17 @@
         </p>
     </div>
     <div class="tab-pane" id="profile">
+        <div class="row">
+            <div class="span4">
+                <div class="asLegend">Datos Basicos </div>
+                {{client.print_as_html|safe}}
+            </div>
+            <div class="span4">
+                <div class="asLegend">Dirección <i class="icon-pencil" ></i></div>
+                {{client.address.print_as_html|safe}}
+            </div>
+        </div>
 
-        <p>
-            Food truck fixie locavore, accusamus mcsweeney's marfa nulla.
-        </p>
     </div>
 </div>
 

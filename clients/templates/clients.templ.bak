@@ -1,0 +1,144 @@
+{% extends "base.templ" %}
+{% block page_title %}
+    Clientes
+{% endblock page_title %}
+{% block page_style %}
+    .accordion-group {
+    border: none;
+    }
+{% endblock page_style %}
+
+{% block container %}
+<h2>Clientes</h2>
+<div class="row">
+    <div class="span8">
+        <form class="form-search">
+            <input class="span4" type="search" placeholder="Busqueda">
+            <button type="submit" class="btn">Ir</button>
+        </form>
+        <button type="button" id="addNatUserButton" class="btn" data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion2">
+            Añadir Persona Natural | <i class="icon-user"></i>
+        </button>
+        <a href="/clients/add"> anadir cliente natural</a>
+        <button type="button" id="addNatUserButton" class="btn" data-toggle="collapse" data-target="#collapseTwo" data-parent="#accordion2">
+            Añadir Persona Juridica
+        </button>
+    </div>
+</div>
+{% if clients %}
+<div class="row">
+    <div class="span6">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th width="8%">&nbsp;</th>
+                    <th width="80%">Cliente</th>
+                    <th width="12%">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+                        <a href="/clients/{{client.id}}">
+                        {{client.get_name}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" id="pop{{client.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;hideAllPopovers()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;client_id&quot; value=&quot;{{client.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación">
+                            <i class="icon-trash" title='Eliminar este cliente'></i>
+                        </a>
+                        <a href='' ><i class="icon-pencil" title='Editar este cliente'></i></a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    {% load crispy_forms_tags %}
+    <div class="span6">
+        <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+                <div id="collapseOne" class="collapse
+                    {% if nat_client_form.errors %}
+                        in
+                    {% endif %}">
+                    <div class="row">
+                        <div class="span8">
+
+                            <form action="#" id="natClientForm" class="form-horizontal" method="post">
+                            <legend>Datos Basicos</legend>
+                            {% crispy nat_client_form %}
+                            <legend class="toggleNextSibling">Telefono</legend>
+                            <div style="display: none; ">{% crispy phone_form %}</div>
+                            <legend class="toggleNextSibling">Dirección</legend>
+                            <div style="display: none; ">{% crispy address_form %}</div>
+                            <div class="form-actions">
+                                <input type="submit" name="add_nat_client" value="Añadir" class="btn btn-primary" id="submit-id-add_nat_client">‌
+                                <input type="button" name="cancel" value="Cancelar" class="btn" id="button-id-cancel">‌
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-group">
+                <div id="collapseTwo" class="collapse
+                    {% if legal_client_form.errors %}
+                        in
+                    {% endif %}
+                    ">
+                    <div class="row">
+                        <div class="span8">
+                            <form action="#" id="legalClientForm" class="form-horizontal" method="post">
+                            <legend>Datos Basicos</legend>
+                            {% crispy legal_client_form %}
+<!--                             <legend class="toggleNextSibling">Telefono</legend>
+                            <div style="display: none; ">
+                            {% crispy phone_form %}
+                            </div> -->
+                            <legend class="toggleNextSibling">Telefonosssssss</legend>
+                            <div style="display: none; ">
+                            {{ phone_formset.management_form }}
+                            {% for form in phone_formset %}
+                                {% crispy form %}
+                            {% endfor %}
+                            <button id="addPhone">añadir otro</button>
+                            </div>
+
+                            <legend class="toggleNextSibling">Dirección</legend>
+                            <div style="display: none; ">
+                            {% crispy address_form %}
+                            </div>
+                            <div class="form-actions">
+                                <input type="submit" name="add_legal_client" value="Añadir" class="btn btn-primary" id="submit-id-add_nat_client">‌
+                                <input type="button" name="cancel" value="Cancelar" class="ibtn" id="button-id-cancel">‌
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ {% endblock container %}
+
+{% block scripts %}
+    $(document).ready(function (){
+        $("#addPhone")
+          .click(function(e) {
+            $(this).next().slideToggle()
+          })
+    });
+{% endblock scripts %}

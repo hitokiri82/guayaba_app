@@ -1,0 +1,21 @@
+{% extends "base.templ" %}
+{% block page_title %}
+    Clientes
+{% endblock page_title %}
+{% block container %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="span8">
+
+        <form action="#" id="clientForm" class="form-horizontal" method="post">
+        <legend>Dirección</legend>
+        {% crispy address_form %}
+
+        <div class="form-actions">
+            <input type="submit" name="add_client" value="Crear" class="btn btn-primary" id="submit-id-add_nat_client">‌
+            <input type="button" name="cancel" value="Cancelar" class="btn" id="button-id-cancel">‌
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock container %}

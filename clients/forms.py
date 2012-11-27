@@ -43,6 +43,8 @@ class LegalClientForm(ModelForm):
             'corporate_name',
             'id_type',
             'id_number',
+            'responsible_last_name',
+            'responsible_first_name',
             'contact_last_name',
             'contact_first_name',
             'contact_phone_number',

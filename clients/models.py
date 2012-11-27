@@ -25,6 +25,13 @@ NUM_TYPES = (
 )
 
 
+def t_as_dict(t_list, key):
+    for t in t_list:
+        if t[0] == key:
+            return t[1]
+    return None
+
+
 class Referrer(models.Model):
     """The entity that referred a client"""
     class Meta:
@@ -91,6 +98,22 @@ class Address(models.Model):
     def __unicode__(self):
         return unicode(self.id)
 
+    def print_as_html(self):
+        output = """ %s <br>
+                     %s <br>
+                     %s %s <br>
+                     %s <br>
+                     %s <br>
+                     %s <br>
+                """ % (self.street_1,
+                       self.street_2,
+                       self.municipality,
+                       self.postal_code,
+                       self.subadministrative_area,
+                       self.administrative_area,
+                       self.country)
+        return output
+
 
 class Client(models.Model):
     class Meta:
@@ -131,10 +154,15 @@ class Client(models.Model):
 
     def get_name(self):
         if self.get_client_type() == 'N':
-            # name = self.naturalclient.last_name + ", " + self.naturalclient.name
             return unicode(self.naturalclient)
         else:
             return unicode(self.legalclient)
+
+    def print_as_html(self):
+        if self.is_legal():
+            return self.legalclient.print_as_html()
+        else:
+            return self.naturalclient.print_as_html()
 
     def __cmp__(self, other):
         locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
@@ -160,6 +188,20 @@ class NaturalClient(Client):
     def __unicode__(self):
         return unicode(self.last_name + " " + self.name)
 
+    def print_as_html(self):
+        output = """ %s %s %s %s <br>
+                    %s: %s <br>
+                    <a href='mailto:%s'>%s</a>
+                """ % (self.name,
+                       self.name_2,
+                       self.last_name,
+                       self.last_name_2,
+                       t_as_dict(NAT_ID_TYPES, self.id_type),
+                       self.id_number,
+                       self.email,
+                       self.email)
+        return output
+
 
 class LegalClient(Client):
     class Meta:
@@ -173,6 +215,29 @@ class LegalClient(Client):
     contact_email = models.CharField(_('E-mail de persona de contacto'), max_length=50, blank=True, null=True)
     id_type = models.CharField(_('Tipo de ID'), max_length=3, choices=CORP_ID_TYPES)
     id_number = models.CharField(_('Numero de ID'), max_length=15)
+    responsible_last_name = models.CharField(_('Apellido de persona responsable'), max_length=25, blank=True, null=True)
+    responsible_first_name = models.CharField(_('Nombre de persona responsable'), max_length=25, blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.corporate_name)
+
+    def print_as_html(self):
+        output = """ %s <br>
+                     %s: %s <br>
+                     Responsable Juridico: <br>
+                     %s %s <br>
+                     Persona Contacto: <br>
+                     %s %s <br>
+                     Telefono: %s <br>
+                     <a href='mailto:%s'>%s</a>
+                """ % (self.corporate_name,
+                       t_as_dict(CORP_ID_TYPES, self.id_type),
+                       self.id_number,
+                       self.responsible_first_name,
+                       self.responsible_last_name,
+                       self.contact_first_name,
+                       self.contact_last_name,
+                       self.contact_phone_number,
+                       self.contact_email,
+                       self.contact_email)
+        return output
