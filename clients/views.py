@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from clients.models import Client
-from clients.forms import NaturalClientForm, LegalClientForm
+from clients.forms import NaturalClientForm, LegalClientForm, AddressForm, ClientPhoneNumberForm
 
 
 def clients(request):
@@ -22,30 +22,93 @@ def clients(request):
             client_id = request.POST['client_id']
             client = Client.objects.get(pk=client_id)
             client.delete()
-        if 'add_nat_client' in request.POST:
+        # if 'add_nat_client' in request.POST:
+        #     print "Add request detected"
+        #     nat_client_form = NaturalClientForm(request.POST)
+        #     address_form = AddressForm(request.POST)
+        #     phone_form = ClientPhoneNumberForm(request.POST)
+        #     if nat_client_form.is_valid() and address_form.is_valid():
+        #         print "Its valid"
+        #         new_address = address_form.save()
+        #         new_nat_client = nat_client_form.save(commit=False)
+        #         new_nat_client.created_by = request.user
+        #         new_nat_client.modified_by = request.user
+        #         new_nat_client.address = new_address
+        #         new_client = new_nat_client.save()
+        #         new_phone = phone_form.save(commit=False)
+        #         new_phone.client = new_client
+        #         new_phone.save()
+        #         del nat_client_form
+        #         del address_form
+        #         del phone_form
+        #         print "Saved"
+        #     else:
+        #         print "Its not valid"
+        # if 'add_legal_client' in request.POST:
+        #     print "Add request detected"
+        #     legal_client_form = LegalClientForm(request.POST)
+        #     address_form = AddressForm(request.POST)
+        #     phone_form = ClientPhoneNumberForm(request.POST)
+        #     if legal_client_form.is_valid():
+        #         print "Client is valid"
+        #         new_legal_client = legal_client_form.save(commit=False)
+        #         new_legal_client.created_by = request.user
+        #         new_legal_client.modified_by = request.user
+        #         if address_form.is_valid() and address_form.has_changed():
+        #             new_address = address_form.save()
+        #             new_legal_client.address = new_address
+        #         new_client = new_legal_client.save()
+        #         if phone_form.is_valid() and phone_form.has_changed():
+        #             new_phone = phone_form.save(commit=False)
+        #             new_phone.client = new_client
+        #             new_phone.save()
+        #         del legal_client_form
+        #         del address_form
+        #         del phone_form
+        #         print "Saved"
+        #     else:
+        #         print "Its not valid"
+        if 'add_nat_client' in request.POST or 'add_legal_client' in request.POST:
             print "Add request detected"
-            nat_client_form = NaturalClientForm(request.POST)
-            if nat_client_form.is_valid():
-                print "Its valid"
-                new_nat_client = nat_client_form.save(commit=False)
-                new_nat_client.created_by = request.user
-                new_nat_client.save()
-                del nat_client_form
+            # import pdb; pdb.set_trace()
+            if 'add_nat_client' in request.POST:
+                nat_client_form = NaturalClientForm(request.POST)
+                client_form = nat_client_form
+            else:
+                legal_client_form = LegalClientForm(request.POST)
+                client_form = legal_client_form
+            address_form = AddressForm(request.POST)
+            phone_form = ClientPhoneNumberForm(request.POST)
+            if client_form.is_valid():
+                print "Client is valid"
+                new_client = client_form.save(commit=False)
+                new_client.created_by = request.user
+                new_client.modified_by = request.user
+                if address_form.is_valid() and address_form.has_changed():
+                    new_address = address_form.save()
+                    new_client.address = new_address
+                new_client.save()
+                if phone_form.is_valid() and phone_form.has_changed():
+                    new_phone = phone_form.save(commit=False)
+                    new_phone.client = new_client
+                    new_phone.save()
+                nat_client_form = NaturalClientForm()
+                legal_client_form = LegalClientForm()
+                del client_form
+                del address_form
+                del phone_form
                 print "Saved"
             else:
                 print "Its not valid"
-        if 'add_legal_client' in request.POST:
-            print "Add request detected"
-            legal_client_form = LegalClientForm(request.POST)
-            if legal_client_form.is_valid():
-                print "Its valid"
-                new_legal_client = legal_client_form.save(commit=False)
-                new_legal_client.created_by = request.user
-                new_legal_client.save()
-                del legal_client_form
-                print "Saved"
-            else:
-                print "Its not valid"
+    try:
+        phone_form
+    except:
+        phone_form = ClientPhoneNumberForm()
+
+    try:
+        address_form
+    except:
+        address_form = AddressForm()
 
     try:
         nat_client_form
@@ -62,6 +125,8 @@ def clients(request):
 
     return render_to_response('clients.templ',
                               {'clients': clients,
+                               'address_form': address_form,
+                               'phone_form': phone_form,
                                'nat_client_form': nat_client_form,
                                'legal_client_form': legal_client_form},
                                context_instance=RequestContext(request))

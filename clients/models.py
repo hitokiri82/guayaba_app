@@ -58,19 +58,21 @@ class PhoneNumber(models.Model):
         verbose_name_plural = _('Telefonos')
 
     kind = models.CharField(_('Tipo de Numero'), max_length=1, choices=NUM_TYPES, default='P')
-    number = models.CharField(_('Numero'), max_length=20, blank=True, null=True)
+    number = models.CharField(_('Numero'), max_length=20)
     is_preferred = models.BooleanField(_('Preferido'), default=False)
 
     def __unicode__(self):
-        pass
+        return unicode(self.id)
 
 
 class ClientPhoneNumber(PhoneNumber):
-
+    class Meta:
+        verbose_name = _('Telefono de Cliente')
+        verbose_name_plural = _('Telefonos de Clientes')
     client = models.ForeignKey('Client', verbose_name=_(u'Cliente'))
 
     def __unicode__(self):
-        pass
+        return unicode(self.id)
 
 
 class Address(models.Model):
@@ -81,13 +83,13 @@ class Address(models.Model):
     street_1 = models.CharField(_('Calle/Portal/Piso'), max_length=20, blank=True, null=True)
     street_2 = models.CharField(_('Calle/Portal/Piso (Cont)'), max_length=20, blank=True, null=True)
     municipality = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
-    administrative_area = models.CharField(_('Comunidad Autonoma'), max_length=20, blank=True, null=True)
     subadministrative_area = models.CharField(_('Provincia'), max_length=20, blank=True, null=True)
+    administrative_area = models.CharField(_('Comunidad Autonoma'), max_length=20, blank=True, null=True)
     postal_code = models.CharField(_('Zona Postal'), max_length=20, blank=True, null=True)
     country = models.CharField(_('Pais'), max_length=20, blank=True, null=True)
 
     def __unicode__(self):
-        pass
+        return unicode(self.id)
 
 
 class Client(models.Model):
@@ -95,11 +97,11 @@ class Client(models.Model):
         verbose_name = _('Cliente')
         verbose_name_plural = _('Clientes')
 
-    address = models.ForeignKey(Address, verbose_name=(_('Direccion')))
-    created_date = models.DateField(_('Fecha Creacion'), auto_now_add=True)
-    modified_date = models.DateField(_('Fecha Modificación'), auto_now_add=True)
-    created_by = models.ForeignKey(User, verbose_name=_('Creado por'), related_name='created_users')
-    modified_by = models.ForeignKey(User, verbose_name=_('Modificado por'), related_name='modified_users')
+    address = models.ForeignKey(Address, verbose_name=(_(u'Dirección')), blank=True, null=True)
+    created_date = models.DateField(_(u'Fecha Creación'), auto_now_add=True)
+    modified_date = models.DateField(_(u'Fecha Modificación'), auto_now_add=True)
+    created_by = models.ForeignKey(User, verbose_name=_('Creado por'), related_name='created_clients')
+    modified_by = models.ForeignKey(User, verbose_name=_('Modificado por'), related_name='modified_cliets')
     referred_by = models.ForeignKey(Referrer, verbose_name=_('Referido por'), blank=True, null=True)
 
     def is_natural(self):

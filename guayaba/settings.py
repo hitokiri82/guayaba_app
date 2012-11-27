@@ -129,6 +129,8 @@ INSTALLED_APPS = (
     'main',
     'clients',
     'crispy_forms',
+    #remove this for production
+    'dummy_fix',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -35,3 +35,7 @@
 .requiredField {
     font-weight: bold;
 }
+
+.toggleNextSibling {
+    cursor: pointer;
+}

@@ -24,10 +24,9 @@
         </button>
     </div>
 </div>
+{% if clients %}
 <div class="row">
-
     <div class="span6">
-
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -37,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for client in clients  %}
+            {% for client in clients %}
 
                 <tr>
                     <td>
@@ -59,45 +58,61 @@
             {% endfor %}
             </tbody>
         </table>
-
-
-
-
     </div>
+</div>
+{% endif %}
+<div class="row">
+    {% load crispy_forms_tags %}
     <div class="span6">
-
-
-
         <div class="accordion" id="accordion2">
             <div class="accordion-group">
-                {% if nat_client_form.errors %}
-                <div id="collapseOne" class="collapse in">
-                {% else %}
-                <div id="collapseOne" class="collapse">
-                {% endif %}
-
-                    <hr>
+                <div id="collapseOne" class="collapse
+                    {% if nat_client_form.errors %}
+                        in
+                    {% endif %}">
                     <div class="row">
                         <div class="span8">
-                        {% load crispy_forms_tags %}
-                        {% crispy nat_client_form %}
+
+                            <form action="#" id="natClientForm" class="form-horizontal" method="post">
+                            <legend>Datos Basicos</legend>
+                            {% crispy nat_client_form %}
+                            <legend class="toggleNextSibling">Telefono</legend>
+                            <div style="display: none; ">{% crispy phone_form %}</div>
+                            <legend class="toggleNextSibling">Dirección</legend>
+                            <div style="display: none; ">{% crispy address_form %}</div>
+                            <div class="form-actions">
+                                <input type="submit" name="add_nat_client" value="Añadir" class="btn btn-primary" id="submit-id-add_nat_client">‌
+                                <input type="button" name="cancel" value="Cancelar" class="btn" id="button-id-cancel">‌
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="accordion-group">
-                {% if legal_client_form.errors %}
-                <div id="collapseTwo" class="collapse in">
-                {% else %}
-                <div id="collapseTwo" class="collapse">
-                {% endif %}
-
-                    <hr>
+                <div id="collapseTwo" class="collapse
+                    {% if legal_client_form.errors %}
+                        in
+                    {% endif %}
+                    ">
                     <div class="row">
                         <div class="span8">
-                            {% load crispy_forms_tags %}
+                            <form action="#" id="legalClientForm" class="form-horizontal" method="post">
+                            <legend>Datos Basicos</legend>
                             {% crispy legal_client_form %}
+                            <legend class="toggleNextSibling">Telefono</legend>
+                            <div style="display: none; ">
+                            {% crispy phone_form %}
+                            </div>
+                            <legend class="toggleNextSibling">Dirección</legend>
+                            <div style="display: none; ">
+                            {% crispy address_form %}
+                            </div>
+                            <div class="form-actions">
+                                <input type="submit" name="add_legal_client" value="Añadir" class="btn btn-primary" id="submit-id-add_nat_client">‌
+                                <input type="button" name="cancel" value="Cancelar" class="ibtn" id="button-id-cancel">‌
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

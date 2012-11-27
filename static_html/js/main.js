@@ -17,3 +17,10 @@ $(document).ready(function (){
         e.preventDefault()
       })
 });
+
+$(document).ready(function (){
+    $(".toggleNextSibling")
+      .click(function(e) {
+        $(this).next().slideToggle()
+      })
+});
