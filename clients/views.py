@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
-from clients.models import Client, ClientPhoneNumber
+from clients.models import Client, ClientPhoneNumber, Address
 from clients.forms import NaturalClientForm, LegalClientForm, AddressForm, ClientPhoneNumberForm
 
 
@@ -76,28 +76,29 @@ def create_address(request, client_id):
     """
     """
     # import pdb; pdb.set_trace()
-    # try:
     client = Client.objects.get(pk=client_id)
-    # except Client.DoesNotExist:
-    #     raise Exception()
+    if client.address:
+        instance = client.address
+    else:
+        instance = Address()
+
     if request.method == 'POST':
-        address_form = AddressForm(request.POST)
+        address_form = AddressForm(request.POST, instance=instance)
         if address_form.is_valid() and address_form.has_changed():
-            new_address = address_form.save()
-            client.address = new_address
+            address_form.save()
+            client.address = instance
+            client.save()
             return HttpResponseRedirect(reverse('clients.views.add_phone_numbers', kwargs={'client_id': client.id}))
     else:
-        if client.address is not None:
-            address_form = AddressForm(instance=client.address)
-        else:
-            address_form = AddressForm()
+        address_form = AddressForm(instance=instance)
 
     return render_to_response('create_address.templ',
                               {'address_form': address_form, },
                                context_instance=RequestContext(request))
 
 
-def add_phone_numbers(request, client_id):
+# def phone_numbers(request, client_id, operation = None, phone_id = None):
+def phone_numbers(request, client_id):
     """
     """
     client = Client.objects.get(pk=client_id)
@@ -109,35 +110,41 @@ def add_phone_numbers(request, client_id):
             phone_del = ClientPhoneNumber.objects.get(pk=user_phone_id)
             phone_del.delete()
         if 'confirm_add' in request.POST:
-            phone_form = ClientPhoneNumberForm(request.POST)
-            if phone_form.is_valid() and phone_form.has_changed():
-                new_phone = phone_form.save(commit=False)
+            new_phone_form = ClientPhoneNumberForm(request.POST)
+            if new_phone_form.is_valid() and new_phone_form.has_changed():
+                new_phone = new_phone_form.save(commit=False)
                 new_phone.client = client
                 new_phone.save()
-                del phone_form
+                del new_phone_form
         if 'confirm_edit' in request.POST:
             edit_phone_id = request.POST['edit_phone_id']
             phone_to_edit = ClientPhoneNumber.objects.get(pk=edit_phone_id)
-            phone_form = ClientPhoneNumberForm(request.POST, instance=phone_to_edit)
-            if phone_form.is_valid():
-                phone_form.save()
-                del phone_form
+            edit_form = ClientPhoneNumberForm(request.POST, instance=phone_to_edit)
+            if edit_form.is_valid():
+                edit_form.save()
+                del edit_form
                 edit_phone_id = None
         if 'choose_edit' in request.POST:
             user_phone_id = request.POST['edit_phone_id']
             phone_to_edit = ClientPhoneNumber.objects.get(pk=user_phone_id)
-            phone_form = ClientPhoneNumberForm(instance=phone_to_edit)
+            edit_form = ClientPhoneNumberForm(instance=phone_to_edit)
             edit_phone_id = user_phone_id
 
     try:
-        phone_form
+        new_phone_form
     except:
-        phone_form = ClientPhoneNumberForm()
+        new_phone_form = ClientPhoneNumberForm()
+
+    try:
+        edit_form
+    except:
+        edit_form = ClientPhoneNumberForm()
 
     phones = client.clientphonenumber_set.all()
 
     return render_to_response('add_phone.templ',
-                              {'phone_form': phone_form,
+                              {'new_phone_form': new_phone_form,
+                               'edit_form': edit_form,
                                'phones': phones,
                                'edit_phone_id': edit_phone_id,
                                'client_id': client_id},
