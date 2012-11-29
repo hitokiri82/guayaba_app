@@ -144,16 +144,16 @@ class Client(models.Model):
     def get_client_type(self):
         try:
             self.naturalclient
-            return 'N'
+            return 'natural'
         except Client.DoesNotExist:
             try:
                 self.legalclient
-                return 'L'
+                return 'legal'
             except Client.DoesNotExist:
                 raise Exception('Client not attached to a subclass')
 
     def get_name(self):
-        if self.get_client_type() == 'N':
+        if self.is_natural():
             return unicode(self.naturalclient)
         else:
             return unicode(self.legalclient)
@@ -190,7 +190,7 @@ class NaturalClient(Client):
 
     def print_as_html(self):
         output = """ %s %s %s %s <br>
-                    %s: %s <br>
+                    <strong>%s:</strong> %s <br>
                     <a href='mailto:%s'>%s</a>
                 """ % (self.name,
                        self.name_2,
@@ -224,11 +224,11 @@ class LegalClient(Client):
     def print_as_html(self):
         output = """ %s <br>
                      %s: %s <br>
-                     Responsable Juridico: <br>
+                     <strong>Responsable Juridico:</strong> <br>
                      %s %s <br>
-                     Persona Contacto: <br>
+                     <strong>Persona Contacto:</strong> <br>
                      %s %s <br>
-                     Telefono: %s <br>
+                     <strong>Telefono:</strong> %s <br>
                      <a href='mailto:%s'>%s</a>
                 """ % (self.corporate_name,
                        t_as_dict(CORP_ID_TYPES, self.id_type),

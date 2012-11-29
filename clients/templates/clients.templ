@@ -9,6 +9,9 @@
 {% endblock page_style %}
 
 {% block container %}
+{% if request.session.breadcrumb %}
+    {{ request.session.breadcrumb.print_as_html|safe}}
+{% endif %}
 <h2>Clientes</h2>
 <div class="row">
     <div class="span8">
@@ -16,8 +19,8 @@
             <input class="span4" type="search" placeholder="Busqueda">
             <button type="submit" class="btn">Ir</button>
         </form>
-        <a class="btn" href="{% url clients.views.create_client client_type="natural" %}" >Añadir Persona Natural | <i class="icon-user"></i></a>
-        <a class="btn" href="{% url clients.views.create_client client_type="legal" %}" >Añadir Persona Juridica </a>
+        <a class="btn" href="{% url clients.views.client_basic client_type="natural" %}" >Añadir Persona Natural | <i class="icon-user"></i></a>
+        <a class="btn" href="{% url clients.views.client_basic client_type="legal" %}" >Añadir Persona Juridica </a>
     </div>
 </div>
 {% if clients %}
@@ -47,7 +50,6 @@
                         <a href="#" id="pop{{client.id}}" rel="popover" data-html="true" data-placement="right" data-content="Esta acción no se puede deshacer&lt;br&gt;&lt;form action=&quot;#&quot; onreset=&quot;hideAllPopovers()&quot; method=&quot;post&quot;&gt;    {% csrf_token %}    &lt;input type=&quot;hidden&quot; name=&quot;client_id&quot; value=&quot;{{client.id}}&quot;&gt;    &lt;input type=&quot;submit&quot; value=&quot;Confirmar&quot; name=&quot;confirm_remove&quot;&gt;    &lt;input type=&quot;reset&quot; value=&quot;Cancelar&quot;&gt;&lt;/form&gt;" title="Confirmación">
                             <i class="icon-trash" title='Eliminar este cliente'></i>
                         </a>
-                        <a href='' ><i class="icon-pencil" title='Editar este cliente'></i></a>
                     </td>
                 </tr>
 

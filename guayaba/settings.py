@@ -3,6 +3,7 @@
 # Django settings for guayaba project.
 import os
 #import dj_database_url
+from django.conf import settings
 
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 DEBUG = True
@@ -176,3 +177,5 @@ r'^admin/',
 )
 
 CRISPY_FAIL_SILENTLY = not DEBUG
+
+TEMPLATE_CONTEXT_PROCESSORS = settings.TEMPLATE_CONTEXT_PROCESSORS + ('django.core.context_processors.request',)

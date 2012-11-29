@@ -4,6 +4,9 @@
 {% endblock page_title %}
 
 {% block container %}
+{% if request.session.breadcrumb %}
+    {{ request.session.breadcrumb.print_as_html|safe}}
+{% endif %}
 <h2>{{client.get_name}}</h2>
 
 <ul id="myTab" class="nav nav-tabs">
@@ -11,19 +14,24 @@
         <a href="#home" data-toggle="tab">Casos</a>
     </li>
     <li>
-        <a href="#profile" data-toggle="tab">Profile</a>
+        <a href="#profile" data-toggle="tab">Perfil</a>
     </li>
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane active" id="home">
         <p>
-            Raw denim you probably haven't heard of them jean shorts Austin.
+            Raw denim you probably havent heard of them jean shorts Austin.
         </p>
     </div>
     <div class="tab-pane" id="profile">
         <div class="row">
             <div class="span4">
-                <div class="asLegend">Datos Basicos </div>
+                <div class="asLegend">
+                    Datos Basicos
+                    <a href="{% url clients.views.client_basic client_type=client.get_client_type client_id=client.id  %}">
+                        <i class="icon-pencil"></i>
+                    </a>
+                </div>
                 {{client.print_as_html|safe}}
             </div>
             <div class="span4">
@@ -49,7 +57,12 @@
         <br>
         <div class="row">
             <div class="span4">
-                <div class="asLegend">Telefonos </div>
+                <div class="asLegend">
+                    Telefonos
+                    <a href="{% url clients.views.phone_numbers client_id=client.id  %}">
+                        <i class="icon-pencil"></i>
+                    </a>
+                </div>
 
                 <table class="table table-hover">
                     <thead>
@@ -96,3 +109,19 @@
 
  {% endblock container %}
 
+{% block scripts %}
+    $(document).ready(function (){
+        //if (location.hash == ''){
+        //    location.hash = '#home';
+        //}
+        var activeTab = $('[href=' + location.hash + ']');
+        activeTab && activeTab.tab('show');
+
+        //$('a[href="#home"]').click(function(e){
+        //    location.hash = '#home'
+        //})
+        //$('a[href="#profile"]').click(function(e){
+        //    location.hash = '#profile'
+        //})
+    });
+{% endblock scripts %}

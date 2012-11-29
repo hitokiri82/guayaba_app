@@ -3,6 +3,9 @@
     Clientes
 {% endblock page_title %}
 {% block container %}
+{% if request.session.breadcrumb %}
+    {{ request.session.breadcrumb.print_as_html|safe}}
+{% endif %}
 {% load crispy_forms_tags %}
 <div class="row">
     <div class="span8">
@@ -10,10 +13,9 @@
         <legend>Dirección</legend>
         {% crispy address_form %}
         <div class="form-actions">
-            <input type="submit" name="create_address" value="Crear >>" class="btn btn-primary">‌
-            <input type="reset" value="Limpiar" class="btn">‌
+            <input type="submit" name="create_address" value="Ok" class="btn btn-primary">‌
         </div>
-    </form>
+        </form>
     </div>
 </div>
 {% endblock container %}
