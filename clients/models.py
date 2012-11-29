@@ -87,13 +87,13 @@ class Address(models.Model):
         verbose_name = _('Direccion')
         verbose_name_plural = _('Direcciones')
 
-    street_1 = models.CharField(_('Calle/Portal/Piso'), max_length=20, blank=True, null=True)
-    street_2 = models.CharField(_('Calle/Portal/Piso (Cont)'), max_length=20, blank=True, null=True)
-    municipality = models.CharField(_('Ciudad'), max_length=20, blank=True, null=True)
+    street_1 = models.CharField(_('Calle/Portal/Piso'), max_length=50)
+    street_2 = models.CharField(_('Calle/Portal/Piso (Cont)'), max_length=50, blank=True, null=True)
+    municipality = models.CharField(_('Ciudad'), max_length=30)
     subadministrative_area = models.CharField(_('Provincia'), max_length=20, blank=True, null=True)
     administrative_area = models.CharField(_('Comunidad Autonoma'), max_length=20, blank=True, null=True)
     postal_code = models.CharField(_('Zona Postal'), max_length=20, blank=True, null=True)
-    country = models.CharField(_('Pais'), max_length=20, blank=True, null=True)
+    country = models.CharField(_('Pais'), max_length=20)
 
     def __unicode__(self):
         return unicode(self.id)
