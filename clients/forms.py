@@ -43,14 +43,26 @@ class LegalClientForm(ModelForm):
             'corporate_name',
             'id_type',
             'id_number',
-            'responsible_last_name',
-            'responsible_first_name',
-            'contact_last_name',
-            'contact_first_name',
-            'contact_phone_number',
-            'contact_email',
+            Fieldset(
+                'Responsable Juridico',
+                'responsible_last_name',
+                'responsible_first_name'
+            ),
+            Fieldset(
+                'Persona de contacto',
+                'contact_last_name',
+                'contact_first_name',
+                'contact_phone_number',
+                'contact_email',
+            ),
             'referred_by',
         )
+        self.fields['responsible_last_name'].label = "Apellido"
+        self.fields['responsible_first_name'].label = "Nombre"
+        self.fields['contact_last_name'].label = "Apellido"
+        self.fields['contact_first_name'].label = "Nombre"
+        self.fields['contact_phone_number'].label = "Numero de Telefono"
+        self.fields['contact_email'].label = "E-mail"
 
 
 class AddressForm(ModelForm):

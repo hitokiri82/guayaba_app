@@ -61,7 +61,7 @@ def create_client(request, client_type):
             new_client.modified_by = request.user
             new_client.save()
             print "Client saved"
-            return HttpResponseRedirect(reverse('clients.views.create_address', kwargs={'client_id': new_client.id}))
+            return HttpResponseRedirect(reverse('clients.views.client', kwargs={'client_id': new_client.id}))
         else:
             print "Its not valid"
     else:
@@ -84,16 +84,16 @@ def create_address(request, client_id):
 
     if request.method == 'POST':
         address_form = AddressForm(request.POST, instance=instance)
-        if address_form.is_valid() and address_form.has_changed():
+        if address_form.is_valid():
             address_form.save()
             client.address = instance
             client.save()
-            return HttpResponseRedirect(reverse('clients.views.add_phone_numbers', kwargs={'client_id': client.id}))
+            return HttpResponseRedirect(reverse('clients.views.client', kwargs={'client_id': client.id}))
     else:
         address_form = AddressForm(instance=instance)
 
     return render_to_response('create_address.templ',
-                              {'address_form': address_form, },
+                              {'address_form': address_form},
                                context_instance=RequestContext(request))
 
 
