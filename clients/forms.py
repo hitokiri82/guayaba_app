@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from clients.models import NaturalClient, LegalClient, Address, ClientPhoneNumber
+from clients.models import NaturalClient, LegalClient, ClientAddress, ClientPhoneNumber
 
 from django.forms import ModelForm
 
@@ -67,8 +67,8 @@ class LegalClientForm(ModelForm):
 
 class AddressForm(ModelForm):
     class Meta:
-        model = Address
-        exclude = ('date_created', 'created_by', 'modified_by', )
+        model = ClientAddress
+        exclude = ('date_created', 'created_by', 'modified_by', 'client')
 
     def __init__(self, *args, **kwargs):
         super(AddressForm, self).__init__(*args, **kwargs)

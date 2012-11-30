@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
-from clients.models import Client, NaturalClient, LegalClient, ClientPhoneNumber, Address
+from clients.models import Client, NaturalClient, LegalClient, ClientPhoneNumber, ClientAddress
 from clients.forms import NaturalClientForm, LegalClientForm, AddressForm, ClientPhoneNumberForm
 
 
@@ -114,18 +114,18 @@ def create_address(request, client_id):
     client = Client.objects.get(pk=client_id)
 
     b = request.session['breadcrumb']
-    if client.address:
-        instance = client.address
+    try:
+        instance = client.clientaddress
         b.items.append((request.path, 'Editar direccion'))
-    else:
-        instance = Address()
+    except ClientAddress.DoesNotExist:
+        instance = ClientAddress()
         b.items.append((request.path, 'Crear direccion'))
 
     if request.method == 'POST':
         address_form = AddressForm(request.POST, instance=instance)
         if address_form.is_valid():
             address_form.save()
-            client.address = instance
+            client.clientaddress = instance
             client.save()
             return HttpResponseRedirect(reverse('clients.views.client', kwargs={'client_id': client.id}))
     else:

@@ -82,45 +82,11 @@ class ClientPhoneNumber(PhoneNumber):
         return unicode(self.id)
 
 
-class Address(models.Model):
-    class Meta:
-        verbose_name = _('Direccion')
-        verbose_name_plural = _('Direcciones')
-
-    street_1 = models.CharField(_('Calle/Portal/Piso'), max_length=50)
-    street_2 = models.CharField(_('Calle/Portal/Piso (Cont)'), max_length=50, blank=True, null=True)
-    municipality = models.CharField(_('Ciudad'), max_length=30)
-    subadministrative_area = models.CharField(_('Provincia'), max_length=20, blank=True, null=True)
-    administrative_area = models.CharField(_('Comunidad Autonoma'), max_length=20, blank=True, null=True)
-    postal_code = models.CharField(_('Zona Postal'), max_length=20, blank=True, null=True)
-    country = models.CharField(_('Pais'), max_length=20)
-
-    def __unicode__(self):
-        return unicode(self.id)
-
-    def print_as_html(self):
-        output = """ %s <br>
-                     %s <br>
-                     %s %s <br>
-                     %s <br>
-                     %s <br>
-                     %s <br>
-                """ % (self.street_1,
-                       self.street_2,
-                       self.municipality,
-                       self.postal_code,
-                       self.subadministrative_area,
-                       self.administrative_area,
-                       self.country)
-        return output
-
-
 class Client(models.Model):
     class Meta:
         verbose_name = _('Cliente')
         verbose_name_plural = _('Clientes')
 
-    address = models.ForeignKey(Address, verbose_name=(_(u'Dirección')), blank=True, null=True)
     created_date = models.DateField(_(u'Fecha Creación'), auto_now_add=True)
     modified_date = models.DateField(_(u'Fecha Modificación'), auto_now_add=True)
     created_by = models.ForeignKey(User, verbose_name=_('Creado por'), related_name='created_clients')
@@ -170,6 +136,48 @@ class Client(models.Model):
 
     def __unicode__(self):
         return unicode(self.get_name())
+
+
+class Address(models.Model):
+    class Meta:
+        verbose_name = _('Direccion')
+        verbose_name_plural = _('Direcciones')
+
+    street_1 = models.CharField(_('Calle/Portal/Piso'), max_length=50)
+    street_2 = models.CharField(_('Calle/Portal/Piso (Cont)'), max_length=50, blank=True, null=True)
+    municipality = models.CharField(_('Ciudad'), max_length=30)
+    subadministrative_area = models.CharField(_('Provincia'), max_length=20, blank=True, null=True)
+    administrative_area = models.CharField(_('Comunidad Autonoma'), max_length=20, blank=True, null=True)
+    postal_code = models.CharField(_('Zona Postal'), max_length=20, blank=True, null=True)
+    country = models.CharField(_('Pais'), max_length=20)
+
+    def __unicode__(self):
+        return unicode(self.id)
+
+    def print_as_html(self):
+        output = """ %s <br>
+                     %s <br>
+                     %s %s <br>
+                     %s <br>
+                     %s <br>
+                     %s <br>
+                """ % (self.street_1,
+                       self.street_2,
+                       self.municipality,
+                       self.postal_code,
+                       self.subadministrative_area,
+                       self.administrative_area,
+                       self.country)
+        return output
+
+
+class ClientAddress(Address):
+
+    class Meta:
+        verbose_name = _('Direccion')
+        verbose_name_plural = _('Direcciones')
+
+    client = models.OneToOneField(Client, verbose_name=(_(u'Cliente')), primary_key=True)
 
 
 class NaturalClient(Client):

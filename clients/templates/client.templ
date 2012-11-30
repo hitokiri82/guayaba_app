@@ -38,7 +38,7 @@
                 <div class="asLegend">
                     Dirección
                     <a href="{% url clients.views.create_address client_id=client.id %}">
-                    {% if client.address %}
+                    {% if client.clientaddress %}
                         <i class="icon-pencil" ></i>
                     {% else %}
                         <i class="icon-plus" ></i>
@@ -46,8 +46,8 @@
                     </a>
 
                 </div>
-                {% if client.address %}
-                    {{client.address.print_as_html|safe}}
+                {% if client.clientaddress %}
+                    {{client.clientaddress.print_as_html|safe}}
                 {% else %}
                     No se ha cargado ninguna direccion para este cliente
                 {% endif %}
