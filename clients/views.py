@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -15,7 +15,6 @@ class Breadcrumb():
         self.items = []
 
     def print_as_html(self):
-        # import pdb; pdb.set_trace()
         if self.items:
             output = "<ul class=\"breadcrumb\">\n"
             for item in self.items[:-1]:
@@ -39,7 +38,6 @@ def clients(request):
             client_id = request.POST['client_id']
             client = Client.objects.get(pk=client_id)
             client.delete()
-
     clients = list(Client.objects.all())
     clients.sort()
 
@@ -54,7 +52,7 @@ def client(request, client_id):
         cases that are related with this client.
         I must also handle edition of the client.
     """
-    client = Client.objects.get(pk=client_id)
+    client = get_object_or_404(Client, pk=client_id)
     b = request.session['breadcrumb']
     b.items = [b.items[0], ((request.path, client.get_name()))]
     request.session['breadcrumb'] = b
@@ -78,13 +76,11 @@ def client_basic(request, client_type, client_id=None):
 
     b = request.session['breadcrumb']
     if client_id is not None:
-        instance = client_class.objects.get(pk=client_id)
+        instance = get_object_or_404(client_class, pk=client_id)
         b.items.append((request.path, 'Editar datos basicos'))
     else:
         b.items.append((request.path, 'Crear datos basicos'))
         instance = client_class()
-
-    print b.items
 
     if request.method == 'POST':
         client_form = form_class(request.POST, instance=instance)
@@ -110,8 +106,7 @@ def client_basic(request, client_type, client_id=None):
 def create_address(request, client_id):
     """
     """
-
-    client = Client.objects.get(pk=client_id)
+    client = get_object_or_404(Client, pk=client_id)
 
     b = request.session['breadcrumb']
     try:
@@ -136,11 +131,10 @@ def create_address(request, client_id):
                                context_instance=RequestContext(request))
 
 
-# def phone_numbers(request, client_id, operation = None, phone_id = None):
 def phone_numbers(request, client_id):
     """
     """
-    client = Client.objects.get(pk=client_id)
+    client = get_object_or_404(Client, pk=client_id)
     b = request.session['breadcrumb']
     b.items.append((request.path, 'Telefonos'))
 
@@ -149,7 +143,7 @@ def phone_numbers(request, client_id):
         print "POST data detected "
         if 'confirm_remove' in request.POST:
             user_phone_id = request.POST['user_phone_id']
-            phone_del = ClientPhoneNumber.objects.get(pk=user_phone_id)
+            phone_del = get_object_or_404(ClientPhoneNumber, pk=user_phone_id)
             phone_del.delete()
         if 'confirm_add' in request.POST:
             new_phone_form = ClientPhoneNumberForm(request.POST)
@@ -160,7 +154,7 @@ def phone_numbers(request, client_id):
                 del new_phone_form
         if 'confirm_edit' in request.POST:
             edit_phone_id = request.POST['edit_phone_id']
-            phone_to_edit = ClientPhoneNumber.objects.get(pk=edit_phone_id)
+            phone_to_edit = get_object_or_404(ClientPhoneNumber, pk=edit_phone_id)
             edit_form = ClientPhoneNumberForm(request.POST, instance=phone_to_edit)
             if edit_form.is_valid():
                 edit_form.save()
@@ -168,7 +162,7 @@ def phone_numbers(request, client_id):
                 edit_phone_id = None
         if 'choose_edit' in request.POST:
             user_phone_id = request.POST['edit_phone_id']
-            phone_to_edit = ClientPhoneNumber.objects.get(pk=user_phone_id)
+            phone_to_edit = get_object_or_404(ClientPhoneNumber, pk=user_phone_id)
             edit_form = ClientPhoneNumberForm(instance=phone_to_edit)
             edit_phone_id = user_phone_id
 
