@@ -185,3 +185,22 @@ def phone_numbers(request, client_id):
                                'edit_phone_id': edit_phone_id,
                                'client_id': client_id},
                                context_instance=RequestContext(request))
+
+
+from django.forms.models import inlineformset_factory
+
+
+def test_formsets(request, client_id):
+    PhonesFormSet = inlineformset_factory(Client, ClientPhoneNumber, extra=1)
+    client = Client.objects.get(pk=client_id)
+    formset = PhonesFormSet(instance=client)
+    if request.method == "POST":
+        formset = PhonesFormSet(request.POST, instance=client)
+        if formset.is_valid():
+            formset.save()
+            return HttpResponseRedirect(reverse('clients.views.test_formsets', kwargs={'client_id': client.id}))
+    else:
+        formset = PhonesFormSet(instance=client)
+    return render_to_response('test.templ',
+                              {'formset': formset},
+                               context_instance=RequestContext(request))
