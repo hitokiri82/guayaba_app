@@ -19,9 +19,9 @@ CORP_ID_TYPES = (
 )
 
 NUM_TYPES = (
-    (u'P', _(u'Profesional')),
+    (u'O', _(u'Oficina')),
     (u'H', _(u'Casa')),
-    (u'M', _(u'Mobil')),
+    (u'M', _(u'Móvil')),
 )
 
 
@@ -64,7 +64,7 @@ class PhoneNumber(models.Model):
         verbose_name = _('Telefono')
         verbose_name_plural = _('Telefonos')
 
-    kind = models.CharField(_('Tipo de Numero'), max_length=1, choices=NUM_TYPES, default='P')
+    kind = models.CharField(_('Tipo de Numero'), max_length=1, choices=NUM_TYPES, default='O')
     number = models.CharField(_('Numero'), max_length=20)
     is_preferred = models.BooleanField(_('Preferido'), default=False)
 

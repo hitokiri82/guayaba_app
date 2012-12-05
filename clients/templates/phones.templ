@@ -1,0 +1,76 @@
+{% extends "base.templ" %}
+
+{% block style %}
+
+{% endblock style %}
+
+{% block container %}
+
+{% if request.session.breadcrumb %}
+    {{ request.session.breadcrumb.print_as_html|safe}}
+{% endif %}
+<h2>Telefonos</h2>
+
+<div class="row">
+
+    <div class="span6">
+        <form method="post" action="#">
+
+            {% csrf_token %}
+            {{ formset.management_form }}
+            <table class="table">
+                <th>Eliminar</th>
+                <th>Tipo</th>
+                <th>Numero</th>
+                <th>Es preferido?</th>
+                {% for form in formset %}
+                <tr>
+                    {{ form.phonenumber_ptr }}
+                    {% if formset.can_delete %}
+                        <td>{{form.DELETE}} </td>
+                    {% endif %}
+                    <td>
+                        <div class="control-group {% if form.kind.errors %} error{% endif %}">
+                            <span class="help-block">
+                                <strong>{{ form.kind.errors }}</strong>
+                            </span>
+                            {{ form.kind}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="control-group {% if form.number.errors %} error{% endif %}">
+                            <span class="help-block">
+                                <strong>{{ form.number.errors }}</strong>
+                            </span>
+                            {{ form.number}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="control-group {% if form.is_preferred.errors %} error{% endif %}">
+                            <span class="help-block">
+                                <strong>{{ form.is_preferred.errors }}</strong>
+                            </span>
+                            {{ form.is_preferred}}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4">
+                        <div class="alert alert-info">
+  Esta ultima fila es para agregar numeros nuevos de telefono <br>
+                        Cada vez que se graben los datos aparecera una nueva fila <br>
+                        para grabar un numero nuevo.
+</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form-actions">
+                <input type="submit" name="confirm_add" value="Guardar Cambios" class="btn btn-primary" id="submit-id-add_nat_client">‌
+            </div>
+        </form>
+    </div>
+</div>
+<a class="btn btn-primary" href="{% url clients.views.client client_id %}#profile">Finalizar</a>
+
+{% endblock container %}

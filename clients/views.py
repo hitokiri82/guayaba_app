@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.forms.models import inlineformset_factory
 
 from clients.models import Client, NaturalClient, LegalClient, ClientPhoneNumber, ClientAddress
 from clients.forms import NaturalClientForm, LegalClientForm, AddressForm, ClientPhoneNumberForm
@@ -131,66 +132,7 @@ def create_address(request, client_id):
                                context_instance=RequestContext(request))
 
 
-def phone_numbers(request, client_id):
-    """
-    """
-    client = get_object_or_404(Client, pk=client_id)
-    b = request.session['breadcrumb']
-    b.items.append((request.path, 'Telefonos'))
-
-    edit_phone_id = None
-    if request.method == 'POST':
-        print "POST data detected "
-        if 'confirm_remove' in request.POST:
-            user_phone_id = request.POST['user_phone_id']
-            phone_del = get_object_or_404(ClientPhoneNumber, pk=user_phone_id)
-            phone_del.delete()
-        if 'confirm_add' in request.POST:
-            new_phone_form = ClientPhoneNumberForm(request.POST)
-            if new_phone_form.is_valid() and new_phone_form.has_changed():
-                new_phone = new_phone_form.save(commit=False)
-                new_phone.client = client
-                new_phone.save()
-                del new_phone_form
-        if 'confirm_edit' in request.POST:
-            edit_phone_id = request.POST['edit_phone_id']
-            phone_to_edit = get_object_or_404(ClientPhoneNumber, pk=edit_phone_id)
-            edit_form = ClientPhoneNumberForm(request.POST, instance=phone_to_edit)
-            if edit_form.is_valid():
-                edit_form.save()
-                del edit_form
-                edit_phone_id = None
-        if 'choose_edit' in request.POST:
-            user_phone_id = request.POST['edit_phone_id']
-            phone_to_edit = get_object_or_404(ClientPhoneNumber, pk=user_phone_id)
-            edit_form = ClientPhoneNumberForm(instance=phone_to_edit)
-            edit_phone_id = user_phone_id
-
-    try:
-        new_phone_form
-    except:
-        new_phone_form = ClientPhoneNumberForm()
-
-    try:
-        edit_form
-    except:
-        edit_form = ClientPhoneNumberForm()
-
-    phones = client.clientphonenumber_set.all()
-
-    return render_to_response('add_phone.templ',
-                              {'new_phone_form': new_phone_form,
-                               'edit_form': edit_form,
-                               'phones': phones,
-                               'edit_phone_id': edit_phone_id,
-                               'client_id': client_id},
-                               context_instance=RequestContext(request))
-
-
-from django.forms.models import inlineformset_factory
-
-
-def test_formsets(request, client_id):
+def phones(request, client_id):
     PhonesFormSet = inlineformset_factory(Client, ClientPhoneNumber, extra=1)
     client = Client.objects.get(pk=client_id)
     formset = PhonesFormSet(instance=client)
@@ -198,9 +140,10 @@ def test_formsets(request, client_id):
         formset = PhonesFormSet(request.POST, instance=client)
         if formset.is_valid():
             formset.save()
-            return HttpResponseRedirect(reverse('clients.views.test_formsets', kwargs={'client_id': client.id}))
+            return HttpResponseRedirect(reverse('clients.views.phones', kwargs={'client_id': client.id}))
     else:
         formset = PhonesFormSet(instance=client)
-    return render_to_response('test.templ',
-                              {'formset': formset},
+    return render_to_response('phones.templ',
+                              {'formset': formset,
+                               'client_id': client_id, },
                                context_instance=RequestContext(request))
