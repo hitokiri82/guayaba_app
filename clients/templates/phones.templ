@@ -1,8 +1,10 @@
 {% extends "base.templ" %}
 
-{% block style %}
-
-{% endblock style %}
+{% block page_style %}
+.newPhone {
+    background-color: #D9EDF7
+}
+{% endblock page_style %}
 
 {% block container %}
 
@@ -18,13 +20,18 @@
 
             {% csrf_token %}
             {{ formset.management_form }}
+            {% if  formset.non_form_errors%}
+                <div class="alert alert-error">
+                    {{ formset.non_form_errors }}
+                </div>
+            {% endif %}
             <table class="table">
                 <th>Eliminar</th>
                 <th>Tipo</th>
                 <th>Numero</th>
                 <th>Es preferido?</th>
                 {% for form in formset %}
-                <tr>
+                <tr {% if forloop.last %} class="newPhone"{% endif %}>
                     {{ form.phonenumber_ptr }}
                     {% if formset.can_delete %}
                         <td>{{form.DELETE}} </td>
@@ -58,10 +65,10 @@
                 <tr>
                     <td colspan="4">
                         <div class="alert alert-info">
-  Esta ultima fila es para agregar numeros nuevos de telefono <br>
-                        Cada vez que se graben los datos aparecera una nueva fila <br>
+                        Esta ultima fila es para agregar numeros nuevos de telefono.
+                        Cada vez que se graben los datos aparecera una nueva fila
                         para grabar un numero nuevo.
-</div>
+                        </div>
                     </td>
                 </tr>
             </table>

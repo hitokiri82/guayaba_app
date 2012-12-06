@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
 
 from clients.models import Client, NaturalClient, LegalClient, ClientPhoneNumber, ClientAddress
-from clients.forms import NaturalClientForm, LegalClientForm, AddressForm, ClientPhoneNumberForm
+from clients.forms import NaturalClientForm, LegalClientForm, AddressForm, BaseClientPhoneFormSet
 
 
 class Breadcrumb():
@@ -133,14 +133,23 @@ def create_address(request, client_id):
 
 
 def phones(request, client_id):
-    PhonesFormSet = inlineformset_factory(Client, ClientPhoneNumber, extra=1)
+    b = request.session['breadcrumb']
+    b.items.append((request.path, 'Telefonos'))
+    PhonesFormSet = inlineformset_factory(Client, ClientPhoneNumber, extra=1, formset=BaseClientPhoneFormSet)
     client = Client.objects.get(pk=client_id)
     formset = PhonesFormSet(instance=client)
     if request.method == "POST":
+        print "Post"
         formset = PhonesFormSet(request.POST, instance=client)
+        # import pdb; pdb.set_trace()
         if formset.is_valid():
+            print "formset is valid"
             formset.save()
             return HttpResponseRedirect(reverse('clients.views.phones', kwargs={'client_id': client.id}))
+        else:
+            print "formset is not valid"
+            print formset.non_form_errors
+            print formset.errors
     else:
         formset = PhonesFormSet(instance=client)
     return render_to_response('phones.templ',

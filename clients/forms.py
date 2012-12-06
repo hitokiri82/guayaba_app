@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from clients.models import NaturalClient, LegalClient, ClientAddress, ClientPhoneNumber
 
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
+from django.forms.models import BaseInlineFormSet
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Reset, HTML, Button, Row, Field, Fieldset
@@ -85,17 +86,24 @@ class AddressForm(ModelForm):
         )
 
 
-class ClientPhoneNumberForm(ModelForm):
-    class Meta:
-        model = ClientPhoneNumber
-        exclude = ('client', )
-
-    def __init__(self, *args, **kwargs):
-        super(ClientPhoneNumberForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-        self.helper.layout = Layout(
-            'kind',
-            'number',
-            'is_preferred',
-        )
+class BaseClientPhoneFormSet(BaseInlineFormSet):
+    def clean(self):
+        super(BaseClientPhoneFormSet, self).clean()
+        """Checks that only one number of the set is preferred."""
+        if any(self.errors):
+            print "found errors in one form"
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+        found_preferred = False
+        for i in range(0, self.total_form_count()):
+            form = self.forms[i]
+            #import pdb; pdb.set_trace()
+            if form.cleaned_data:
+                is_preferred = form.cleaned_data['is_preferred']
+                print str(i) + str(is_preferred)
+                if found_preferred and is_preferred:
+                    print "Solo un numero puede ser elegido como preferido"
+                    raise ValidationError("Solo un numero puede ser elegido como preferido")
+                else:
+                    if is_preferred:
+                        found_preferred = True

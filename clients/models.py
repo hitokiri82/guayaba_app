@@ -66,7 +66,6 @@ class PhoneNumber(models.Model):
 
     kind = models.CharField(_('Tipo de Numero'), max_length=1, choices=NUM_TYPES, default='O')
     number = models.CharField(_('Numero'), max_length=20)
-    is_preferred = models.BooleanField(_('Preferido'), default=False)
 
     def __unicode__(self):
         return unicode(self.id)
@@ -76,7 +75,9 @@ class ClientPhoneNumber(PhoneNumber):
     class Meta:
         verbose_name = _('Telefono de Cliente')
         verbose_name_plural = _('Telefonos de Clientes')
+
     client = models.ForeignKey('Client', verbose_name=_(u'Cliente'))
+    is_preferred = models.BooleanField(_('Preferido'), default=False)
 
     def __unicode__(self):
         return unicode(self.id)
