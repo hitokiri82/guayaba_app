@@ -190,12 +190,20 @@ class NaturalClient(Client):
     name_2 = models.CharField(_('Segundo Nombre'), max_length=25, blank=True, null=True)
     last_name = models.CharField(_('Apellido'), max_length=25)
     last_name_2 = models.CharField(_('Segundo Apellido'), max_length=25, blank=True, null=True)
-    id_type = models.CharField(_('Tipo de ID'), max_length=3, choices=NAT_ID_TYPES)
-    id_number = models.CharField(_('Numero de ID'), max_length=15)
+    id_type = models.CharField(_('Tipo de ID'), max_length=3, choices=NAT_ID_TYPES, null=True, blank=True)
+    id_number = models.CharField(_('Numero de ID'), max_length=15, null=True, blank=True)
     email = models.CharField(_('E-mail'), max_length=50, blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.last_name + " " + self.name)
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        """
+        If Client has an id_type it must also have an id_number
+        """
+        if (self.id_type or self.id_number) and not (self.id_type and self.id_number):
+            raise ValidationError(_('El tipo y el numero de ID deben estar ambos llenos o ambos vacios'))
 
     def print_as_html(self):
         output = """ %s %s %s %s <br>
@@ -222,18 +230,27 @@ class LegalClient(Client):
     contact_first_name = models.CharField(_('Nombre de persona de contacto'), max_length=25, blank=True, null=True)
     contact_phone_number = models.CharField(_('Telefono de persona de contacto'), max_length=20, blank=True, null=True)
     contact_email = models.CharField(_('E-mail de persona de contacto'), max_length=50, blank=True, null=True)
-    id_type = models.CharField(_('Tipo de ID'), max_length=3, choices=CORP_ID_TYPES)
-    id_number = models.CharField(_('Numero de ID'), max_length=15)
-    responsible_last_name = models.CharField(_('Apellido de persona responsable'), max_length=25, blank=True, null=True)
-    responsible_first_name = models.CharField(_('Nombre de persona responsable'), max_length=25, blank=True, null=True)
+    id_type = models.CharField(_('Tipo de ID'), max_length=3, choices=CORP_ID_TYPES, null=True, blank=True)
+    id_number = models.CharField(_('Numero de ID'), max_length=15, null=True, blank=True)
+    representative_last_name = models.CharField(_('Apellido de representante legal'), max_length=25, blank=True, null=True)
+    representative_first_name = models.CharField(_('Nombre de representante legal'), max_length=25, blank=True, null=True)
+    activity = models.CharField(_(u'Actividad'), max_length=50, null=True, blank=True)
 
     def __unicode__(self):
         return unicode(self.corporate_name)
 
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        """
+        If Client has an id_type it must also have an id_number
+        """
+        if (self.id_type or self.id_number) and not (self.id_type and self.id_number):
+            raise ValidationError(_('El tipo y el numero de ID deben estar ambos llenos o ambos vacios'))
+
     def print_as_html(self):
         output = """ %s <br>
                      %s: %s <br>
-                     <strong>Responsable Juridico:</strong> <br>
+                     <strong>Representante Legal:</strong> <br>
                      %s %s <br>
                      <strong>Persona Contacto:</strong> <br>
                      %s %s <br>
@@ -242,8 +259,8 @@ class LegalClient(Client):
                 """ % (self.corporate_name,
                        t_as_dict(CORP_ID_TYPES, self.id_type),
                        self.id_number,
-                       self.responsible_first_name,
-                       self.responsible_last_name,
+                       self.representative_first_name,
+                       self.representative_last_name,
                        self.contact_first_name,
                        self.contact_last_name,
                        self.contact_phone_number,

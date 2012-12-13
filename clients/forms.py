@@ -42,12 +42,14 @@ class LegalClientForm(ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             'corporate_name',
+            'activity',
             'id_type',
             'id_number',
+            'referred_by',
             Fieldset(
-                'Responsable Juridico',
-                'responsible_last_name',
-                'responsible_first_name'
+                'Representante Legal',
+                'representative_last_name',
+                'representative_first_name'
             ),
             Fieldset(
                 'Persona de contacto',
@@ -56,10 +58,9 @@ class LegalClientForm(ModelForm):
                 'contact_phone_number',
                 'contact_email',
             ),
-            'referred_by',
         )
-        self.fields['responsible_last_name'].label = "Apellido"
-        self.fields['responsible_first_name'].label = "Nombre"
+        self.fields['representative_last_name'].label = "Apellido"
+        self.fields['representative_first_name'].label = "Nombre"
         self.fields['contact_last_name'].label = "Apellido"
         self.fields['contact_first_name'].label = "Nombre"
         self.fields['contact_phone_number'].label = "Numero de Telefono"

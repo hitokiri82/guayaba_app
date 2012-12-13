@@ -127,9 +127,10 @@ INSTALLED_APPS = (
      'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'crispy_forms',
     'main',
     'clients',
-    'crispy_forms',
+    #'cases',
     #remove this for production
     'dummy_fix',
 )
