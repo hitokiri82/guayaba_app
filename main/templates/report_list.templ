@@ -1,0 +1,19 @@
+{% extends "base.templ" %}
+{% block page_title %}
+    Reportes Disponibles
+{% endblock page_title %}
+
+{% block container %}
+<h3>Reportes Financieros</h3>
+<ul>
+    <li><a href={% url  main.views.reports_test %} >Reporte de Rentabilidad</a> </li>
+    <li><a href="">Clientes por territorio</a></li>
+</ul>
+<h3>Reportes Operativos</h3>
+<ul>
+    <li><a href="">Casos ganados por territorio</a> </li>
+    <li><a href="">Casos ganados por asunto</a></li>
+</ul>
+
+
+{% endblock container %}

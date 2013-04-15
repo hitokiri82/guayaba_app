@@ -1,0 +1,14 @@
+{% extends "base.templ" %}
+{% load event_tags %}
+
+{% block page_title %}
+    Calendario
+{% endblock page_title %}
+
+{% block container %}
+<h3>Reportes Financieros</h3>
+<div id="calendar">
+    {% event_calendar year month events_list %}
+</div>
+
+{% endblock container %}

@@ -1,0 +1,61 @@
+{% extends "base.templ" %}
+{% block page_title %}
+    Bienvenido
+{% endblock page_title %}
+
+{% block container %}
+
+    <div id="table"></div>
+    <br />
+    <table>
+        <tr>
+            <td>
+                <div id="chart1" ></div>
+            </td>
+            <td>
+                <div id="chart2" ></div>
+            </td>
+        </tr>
+    </table>
+
+
+{% endblock container %}
+
+{% block scripts %}
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+  // Load the Visualization API library and the piechart library.
+  google.load('visualization', '1', {packages: ['table', 'corechart']});
+
+
+    function drawVisualization() {
+          var dataTable = google.visualization.arrayToDataTable([
+            ['Tipo de Casos',  'Cantidad',  'Ingresos'],
+            ['Divorcios',       24,         12000],
+            ['Penal',           52,         54000],
+            ['Inmigracion',     16,         43000],
+            ['Mercantil',       72,         12000]
+          ]);
+
+
+
+  var table = new google.visualization.Table(document.getElementById('table'));
+  table.draw(dataTable, null);
+
+  var dataView1 = new google.visualization.DataView(dataTable);
+  dataView1.setColumns([0, 1]);
+
+  var dataView2 = new google.visualization.DataView(dataTable);
+  dataView2.setColumns([0, 2]);
+
+  var chart1 = new google.visualization.PieChart(document.getElementById('chart1'));
+   chart1.draw(dataView1, {width: 600, height: 400, title: 'Distribucion de casos'});
+
+  var chart2 = new google.visualization.PieChart(document.getElementById('chart2'));
+  chart2.draw(dataView2, {width: 600, height: 400, title: 'Distribucion de ingresos'});
+  }
+  google.setOnLoadCallback(drawVisualization);
+</script>
+{% endblock scripts %}
