@@ -1,4 +1,5 @@
 from clients.models import NaturalClient, LegalClient, Referrer, ClientAddress, ClientPhoneNumber
+
 from django.contrib import admin
 
 admin.site.register(LegalClient)
