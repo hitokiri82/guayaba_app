@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'clients',
     'cases',
     'schedule',
+    'appointments',
     #remove this for production
     'dummy_fix',
 )

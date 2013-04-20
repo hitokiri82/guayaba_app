@@ -1,0 +1,37 @@
+{% extends "base.templ" %}
+{% block page_title %}
+   Appointment
+{% endblock page_title %}
+{% load crispy_forms_tags %}
+{% block container %}
+
+{% crispy appointment_form %}
+
+{% endblock container %}
+
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    var area_id;
+    $("#id_area").change(function() {
+        area_id = $(this).val();
+        $.get("/appointments/professionals/area/"+area_id+"/", function(data) {
+                $('#id_professional').html(data);
+        }, "html");
+    });
+    $("#id_professional").change(function() {
+        var prof_id = $(this).val();
+        if (prof_id == 'All'){
+            $.get("/appointments/slots/area/"+area_id+"/", function(data) {
+                    $('#id_dateTime').html(data);
+            }, "html");
+        } else {
+            $.get("/appointments/slots/"+prof_id+"/", function(data) {
+                    $('#id_dateTime').html(data);
+            }, "html");
+        }
+
+    });
+});
+</script>
+{% endblock scripts %}
