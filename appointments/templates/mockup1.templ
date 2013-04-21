@@ -1,0 +1,18 @@
+{% extends "mockup_base.templ" %}
+
+{% block content %}
+
+    <h3>Ahora puedes solicitar tu cita directamente desde nuestra Web. <br></h3>
+    <strong>
+    Selecciona de las opciones mostradas la que mas te convenga. <br>
+    <hr>
+    {% load crispy_forms_tags %}
+    <form action="#" id="finalize" class="form-horizontal" method="post">
+    {% crispy appointment_form %}
+    </form>
+    </strong>
+{% endblock content %}
+
+{% block footer_scripts %}
+
+{% endblock footer_scripts %}

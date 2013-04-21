@@ -1,0 +1,14 @@
+{% extends "base.templ" %}
+{% block page_title %}
+   Appointment 2
+{% endblock page_title %}
+{% load crispy_forms_tags %}
+{% block container %}
+<form action="#" id="appointmentForm" class="form-horizontal" method="post">
+{% crispy id_form %}
+</form>
+{% endblock container %}
+
+{% block scripts %}
+
+{% endblock scripts %}

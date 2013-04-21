@@ -19,7 +19,7 @@ class IdForm (forms.Form):
     client_id = forms.CharField(
         label='ID de Cliente',
         required=False,
-        help_text='Si ya tienes un identificador de cliente, por favor introducelo aqui',
+        # help_text='',
         )
 
     name = forms.CharField(
@@ -35,12 +35,32 @@ class IdForm (forms.Form):
         required=False,
         )
 
-    def __init__(self, *args, **kwargs):
-        super(AddAppointmentForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        # self.helper.layout = Layout(
+    phone_number = forms.IntegerField(
+        label='Telefono',
+        required=False,
+        )
 
-        # )
+    email = forms.EmailField(
+        label='Correo electronico',
+        required=False,)
+
+    def __init__(self, *args, **kwargs):
+        super(IdForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            HTML("<p>Si ya tienes un identificador de cliente, por favor introducelo aqui.</p><br>"),
+            'client_id',
+            HTML("<hr><p>Si no, por favor provee los siguientes datos, para irnos conociendo.</p><br>"),
+            'name',
+            'issue',
+            'referred_by',
+            'phone_number',
+            'email',
+            FormActions(
+                Submit('submit', 'Finalizar'),
+            )
+        )
 
 
 class AddAppointmentForm(forms.Form):
@@ -64,6 +84,7 @@ class AddAppointmentForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(AddAppointmentForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.layout = Layout(
             'area',
             'professional',

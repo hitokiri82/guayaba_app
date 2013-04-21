@@ -1,0 +1,17 @@
+{% extends "mockup_base.templ" %}
+
+{% block content %}
+<strong>Si nos facilitas tu informacion de contacto te mantendremos al tanto de
+    cualquier cambio que se presente. <br>
+    <hr>
+
+    {% load crispy_forms_tags %}
+    <form action="#" id="appointmentForm" class="form-horizontal" method="post">
+    {% crispy id_form %}
+    </form>
+    </strong>
+{% endblock content %}
+
+{% block footer_scripts %}
+
+{% endblock footer_scripts %}
